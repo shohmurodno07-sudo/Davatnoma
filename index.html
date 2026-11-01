@@ -1,1 +1,669 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Даъватномаи рақамӣ</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- HTML2Canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Roboto:wght@400;500;700&family=Alex+Brush&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .font-title { font-family: 'Great Vibes', cursive; }
+        .font-serif-custom { font-family: 'Playfair Display', serif; }
+        .font-header { font-family: 'Cinzel', serif; }
+        .font-brush { font-family: 'Alex Brush', cursive; }
+        .font-decorative { font-family: 'Cinzel Decorative', cursive; }
+        
+        .envelope-box {
+            background: linear-gradient(135deg, #2b080c 0%, #170003 100%);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
 
+        .card-preview-container {
+            max-width: 450px;
+            margin: 0 auto;
+            min-height: 580px;
+            transition: all 0.3s ease;
+        }
+
+        /* 10 Theme Styles */
+        .theme-1 { background: linear-gradient(to bottom, #0f172a, #1e1b4b, #0284c7); color: #fef08a; border-color: #eab308; }
+        .theme-2 { background: linear-gradient(to bottom, #450a0a, #78350f, #991b1b); color: #fef08a; border-color: #f59e0b; }
+        .theme-3 { background: linear-gradient(to bottom, #064e3b, #022c22, #065f46); color: #ecfdf5; border-color: #10b981; }
+        .theme-4 { background: linear-gradient(to bottom, #312e81, #1e1b4b, #4c1d95); color: #e0e7ff; border-color: #818cf8; }
+        .theme-5 { background: linear-gradient(to bottom, #18181b, #27272a, #09090b); color: #fbbf24; border-color: #d97706; }
+        .theme-6 { background: linear-gradient(to bottom, #701a75, #4c1d95, #831843); color: #fbcfe8; border-color: #f472b6; }
+        .theme-7 { background: linear-gradient(to bottom, #0284c7, #0369a1, #0c4a6e); color: #e0f2fe; border-color: #38bdf8; }
+        .theme-8 { background: linear-gradient(to bottom, #14532d, #166534, #052e16); color: #fef08a; border-color: #eab308; }
+        .theme-9 { background: linear-gradient(to bottom, #7c2d12, #9a3412, #451a03); color: #ffedd5; border-color: #f97316; }
+        .theme-10 { background: linear-gradient(to bottom, #3f2b96, #a8c0ff); color: #ffffff; border-color: #ffffff; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
+
+    <div class="max-w-md mx-auto min-h-screen flex flex-col justify-between p-4 relative">
+
+        <!-- Header / Back Navigation -->
+        <header id="app-header" class="flex justify-between items-center py-2 hidden">
+            <button onclick="goBack()" class="text-amber-400 hover:text-amber-300 text-xl font-bold flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> <span id="txt-back">Оқиб</span>
+            </button>
+            <span class="text-xs text-amber-500 tracking-widest font-header">SHOHKOR INVITES</span>
+        </header>
+
+        <!-- STEP 1: LANGUAGE SELECTION -->
+        <div id="step-1" class="my-auto text-center space-y-8">
+            <div class="space-y-3">
+                <i class="fas fa-envelope-open-text text-5xl text-amber-400 animate-bounce"></i>
+                <h1 class="text-2xl font-bold text-amber-300 uppercase tracking-wide leading-relaxed">
+                    ДАЪВАТНОМА БАРОИ ТӮЙ ВА ЗОДРӮЗ
+                </h1>
+                <p class="text-gray-400 text-sm">Приглашения на свадьбу и день рождения</p>
+            </div>
+
+            <div class="space-y-3 pt-4">
+                <button onclick="selectLang('tg')" class="w-full py-3 px-6 bg-gradient-to-r from-amber-600 to-amber-800 text-white font-semibold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-3">
+                    <span>🇹🇯</span> Тоҷикӣ
+                </button>
+                <button onclick="selectLang('ru')" class="w-full py-3 px-6 bg-gray-800 border border-amber-600/40 text-gray-200 font-semibold rounded-xl shadow-lg hover:bg-gray-700 active:scale-95 transition flex items-center justify-center gap-3">
+                    <span>🇷🇺</span> Русский
+                </button>
+                <button onclick="selectLang('en')" class="w-full py-3 px-6 bg-gray-800 border border-amber-600/40 text-gray-200 font-semibold rounded-xl shadow-lg hover:bg-gray-700 active:scale-95 transition flex items-center justify-center gap-3">
+                    <span>🇬🇧</span> English
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 2: CATEGORY SELECTION -->
+        <div id="step-2" class="my-auto space-y-6 hidden">
+            <div class="text-center space-y-2">
+                <h2 id="lbl-cat-title" class="text-xl font-bold text-amber-300">БАРОИ РӮЗИ ЧИ ДАЪВАТНОМА МЕҲОҲЕД?</h2>
+                <div class="h-0.5 w-24 bg-amber-500 mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <button onclick="selectCategory('wedding')" class="p-4 bg-gray-800/90 border border-amber-500/30 rounded-2xl flex items-center gap-4 hover:border-amber-400 transition active:scale-95">
+                    <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl">
+                        <i class="fas fa-ring"></i>
+                    </div>
+                    <div class="text-left">
+                        <div id="cat-wedding" class="font-bold text-lg text-amber-200">Рӯзи Тӯй</div>
+                        <div class="text-xs text-gray-400">Свадьба / Wedding</div>
+                    </div>
+                </button>
+
+                <button onclick="selectCategory('birthday')" class="p-4 bg-gray-800/90 border border-amber-500/30 rounded-2xl flex items-center gap-4 hover:border-amber-400 transition active:scale-95">
+                    <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl">
+                        <i class="fas fa-cake-candles"></i>
+                    </div>
+                    <div class="text-left">
+                        <div id="cat-birthday" class="font-bold text-lg text-amber-200">Рӯзи Таваллуд</div>
+                        <div class="text-xs text-gray-400">День рождения / Birthday</div>
+                    </div>
+                </button>
+
+                <button onclick="selectCategory('housewarming')" class="p-4 bg-gray-800/90 border border-amber-500/30 rounded-2xl flex items-center gap-4 hover:border-amber-400 transition active:scale-95">
+                    <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl">
+                        <i class="fas fa-house-chimney-user"></i>
+                    </div>
+                    <div class="text-left">
+                        <div id="cat-housewarming" class="font-bold text-lg text-amber-200">Даъват ба хона</div>
+                        <div class="text-xs text-gray-400">Новоселье / Housewarming</div>
+                    </div>
+                </button>
+
+                <button onclick="selectCategory('guests')" class="p-4 bg-gray-800/90 border border-amber-500/30 rounded-2xl flex items-center gap-4 hover:border-amber-400 transition active:scale-95">
+                    <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="text-left">
+                        <div id="cat-guests" class="font-bold text-lg text-amber-200">Даъват ба Меҳмонӣ</div>
+                        <div class="text-xs text-gray-400">Гости / Dinner Party</div>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- STEP 3: DATA INPUT FORM -->
+        <div id="step-3" class="space-y-5 hidden my-auto py-4">
+            <div class="text-center">
+                <h2 id="lbl-form-title" class="text-xl font-bold text-amber-300">МАЪЛУМОТҲОРО ПУР КУНЕД!</h2>
+            </div>
+
+            <form id="invite-form" onsubmit="event.preventDefault(); submitForm();" class="space-y-4 text-sm">
+                
+                <div>
+                    <label class="block text-gray-300 mb-1" id="lbl-guest">Муҳтарам:</label>
+                    <input type="text" id="inp-guest" placeholder="Савзаалӣ" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+                </div>
+
+                <!-- Wedding Dynamic Fields -->
+                <div id="fields-wedding" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-gray-300 mb-1" id="lbl-groom">Номи ШОҲПИСАР:</label>
+                            <input type="text" id="inp-groom" placeholder="МУҲАММАД" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white focus:border-amber-400 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-gray-300 mb-1" id="lbl-bride">Номи ГУЛДУХТАР:</label>
+                            <input type="text" id="inp-bride" placeholder="МУНИСА" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white focus:border-amber-400 focus:outline-none">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 mb-1" id="lbl-family">Аз номи оилаи:</label>
+                        <input type="text" id="inp-family" placeholder="Носировҳо" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Birthday Dynamic Fields -->
+                <div id="fields-birthday" class="space-y-4 hidden">
+                    <div>
+                        <label class="block text-gray-300 mb-1" id="lbl-birthday-name">Номи Таваллуддор:</label>
+                        <input type="text" id="inp-birthday-name" placeholder="Шоҳмурод" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Other categories dynamic field -->
+                <div id="fields-other" class="space-y-4 hidden">
+                    <div>
+                        <label class="block text-gray-300 mb-1" id="lbl-occasion">Ба чӣ муносибат:</label>
+                        <input type="text" id="inp-occasion" placeholder="Муносибати ҷашн" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Common Date/Time/Location Fields -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-gray-300 mb-1" id="lbl-date">Рӯз, Моҳ, Сол:</label>
+                        <input type="text" id="inp-date" placeholder="25.10.2026" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white focus:border-amber-400 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 mb-1" id="lbl-time">Соати ҷашн:</label>
+                        <input type="text" id="inp-time" placeholder="09:00" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white focus:border-amber-400 focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-gray-300 mb-1" id="lbl-location">Ҷой / Суроға:</label>
+                    <input type="text" id="inp-location" placeholder="Ноҳияи Восеъ, Деҳаи Кадучӣ" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-gray-300 mb-1" id="lbl-map">Линки Яндекс.Карта (Ихтиёрӣ):</label>
+                    <input type="url" id="inp-map" placeholder="https://yandex.ru/maps/..." class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-gray-300 mb-1">Интихоби Мусиқӣ (MP3 аз телефон):</label>
+                    <input type="file" id="inp-audio" accept="audio/*" onchange="loadAudio(event)" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-gray-300 text-xs">
+                </div>
+
+                <button type="submit" id="btn-submit" class="w-full py-3.5 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl shadow-lg transition active:scale-95 text-base mt-2">
+                    ПУР КАРДАМ
+                </button>
+            </form>
+        </div>
+
+        <!-- STEP 4: INTERACTIVE ENVELOPE / CARD DISPLAY -->
+        <div id="step-4" class="hidden space-y-4 my-auto">
+            
+            <!-- ENVELOPE COVER (FIRST VIEW FOR GUEST) -->
+            <div id="envelope-screen" class="text-center space-y-6">
+                <p class="text-amber-300/80 text-sm animate-pulse">Барои кушодани даъватнома ба болои конверт пахш кунед!</p>
+                
+                <div onclick="openEnvelope()" class="cursor-pointer envelope-box p-6 rounded-2xl border-2 border-amber-500/60 relative overflow-hidden shadow-2xl hover:scale-105 transition duration-300">
+                    <div class="absolute top-2 left-3 text-amber-300 text-xs">✦</div>
+                    <div class="absolute top-4 right-5 text-amber-300 text-sm">✦</div>
+                    <div class="absolute bottom-3 left-6 text-amber-300 text-xs">✦</div>
+                    <div class="absolute bottom-2 right-4 text-amber-300 text-xs">✦</div>
+                    
+                    <div class="py-12 px-4 border border-amber-400/40 rounded-xl bg-amber-950/20 backdrop-blur-sm space-y-4">
+                        <div class="w-12 h-12 mx-auto bg-red-700 rounded-full flex items-center justify-center text-white shadow-lg border-2 border-amber-400">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="space-y-1">
+                            <h3 class="text-2xl font-bold tracking-widest text-amber-200 font-header">ДАЪВАТНОМА</h3>
+                            <p id="env-category-text" class="text-base font-semibold text-amber-400 tracking-wider uppercase">БАРОИ РӮЗИ ТӮЙ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MAIN INVITATION CARD (REVEALED AFTER CLICK) -->
+            <div id="card-screen" class="hidden space-y-4">
+                
+                <!-- Action Buttons Top -->
+                <div class="flex justify-between items-center bg-gray-800 p-2 rounded-xl">
+                    <button onclick="downloadAsImage()" class="flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white px-4 py-2 rounded-lg text-sm font-bold shadow">
+                        <i class="fas fa-download"></i> Скачать HD
+                    </button>
+                    <button onclick="shareInvitation()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-bold shadow">
+                        <i class="fas fa-paper-plane"></i> Фиристодан
+                    </button>
+                </div>
+
+                <!-- Theme Switcher (10 Designs) -->
+                <div class="space-y-1">
+                    <label class="text-xs text-amber-300 font-semibold block text-center">Интихоби Дизайн (10 Шаблон):</label>
+                    <div class="flex overflow-x-auto gap-2 py-1 scrollbar-none">
+                        <button onclick="changeTheme('theme-1')" class="px-3 py-1 bg-slate-800 text-amber-300 border border-amber-400 rounded-full text-xs font-bold whitespace-nowrap">1. Тиллоӣ</button>
+                        <button onclick="changeTheme('theme-2')" class="px-3 py-1 bg-red-900 text-amber-300 border border-amber-400 rounded-full text-xs font-bold whitespace-nowrap">2. Сурхи Шоҳона</button>
+                        <button onclick="changeTheme('theme-3')" class="px-3 py-1 bg-emerald-900 text-emerald-200 border border-emerald-400 rounded-full text-xs font-bold whitespace-nowrap">3. Зумрадӣ</button>
+                        <button onclick="changeTheme('theme-4')" class="px-3 py-1 bg-indigo-900 text-indigo-200 border border-indigo-400 rounded-full text-xs font-bold whitespace-nowrap">4. Кабуд</button>
+                        <button onclick="changeTheme('theme-5')" class="px-3 py-1 bg-zinc-900 text-amber-400 border border-amber-500 rounded-full text-xs font-bold whitespace-nowrap">5. Қораи Тиллоӣ</button>
+                        <button onclick="changeTheme('theme-6')" class="px-3 py-1 bg-fuchsia-900 text-pink-200 border border-pink-400 rounded-full text-xs font-bold whitespace-nowrap">6. Гулобӣ</button>
+                        <button onclick="changeTheme('theme-7')" class="px-3 py-1 bg-sky-800 text-sky-100 border border-sky-300 rounded-full text-xs font-bold whitespace-nowrap">7. Осмонӣ</button>
+                        <button onclick="changeTheme('theme-8')" class="px-3 py-1 bg-green-950 text-amber-300 border border-green-500 rounded-full text-xs font-bold whitespace-nowrap">8. Замбақӣ</button>
+                        <button onclick="changeTheme('theme-9')" class="px-3 py-1 bg-amber-950 text-orange-200 border border-orange-400 rounded-full text-xs font-bold whitespace-nowrap">9. Оташӣ</button>
+                        <button onclick="changeTheme('theme-10')" class="px-3 py-1 bg-purple-900 text-white border border-white rounded-full text-xs font-bold whitespace-nowrap">10. Мӯъҷаза</button>
+                    </div>
+                </div>
+
+                <!-- CARD CANVAS PREVIEW -->
+                <div id="invitation-card" class="card-preview-container theme-1 border-4 rounded-2xl p-6 text-center shadow-2xl relative overflow-hidden space-y-5">
+                    
+                    <!-- Top Title -->
+                    <div class="space-y-1 pt-2">
+                        <div class="text-3xl font-title">Даъватнома</div>
+                        <div class="h-0.5 w-32 bg-current opacity-60 mx-auto"></div>
+                    </div>
+
+                    <!-- Guest Name -->
+                    <div class="space-y-0.5">
+                        <div class="text-xs opacity-90">Муҳтарам:</div>
+                        <div id="card-guest-name" class="text-2xl font-bold font-serif-custom">Савзаалӣ</div>
+                    </div>
+
+                    <!-- Main Announcement Text -->
+                    <div class="text-sm">
+                        Ман шуморо ба рӯзи <span id="card-event-type" class="font-bold uppercase">ТӮЙИ</span>
+                    </div>
+
+                    <!-- Names with ONLY "&" in between -->
+                    <div class="flex items-center justify-center gap-2 text-xl font-bold font-serif-custom">
+                        <span id="card-name-1">МУҲАММАД</span>
+                        <span class="text-xl font-bold px-1">&amp;</span>
+                        <span id="card-name-2">МУНИСА</span>
+                    </div>
+
+                    <!-- Date / Time / Location Badges -->
+                    <div class="space-y-2 py-2">
+                        <div class="bg-black/20 border border-current/30 rounded-xl p-2 flex items-center justify-center gap-3">
+                            <i class="fas fa-calendar-alt text-lg"></i>
+                            <div>
+                                <div class="text-[10px] opacity-80 uppercase">Санаи ҷашн</div>
+                                <div id="card-date" class="font-bold text-sm">25.10.2026</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-black/20 border border-current/30 rounded-xl p-2 flex items-center justify-center gap-3">
+                            <i class="fas fa-clock text-lg"></i>
+                            <div>
+                                <div class="text-[10px] opacity-80 uppercase">Соат</div>
+                                <div id="card-time" class="font-bold text-sm">09:00</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-black/20 border border-current/30 rounded-xl p-2 flex items-center justify-center gap-3">
+                            <i class="fas fa-map-marker-alt text-lg"></i>
+                            <div>
+                                <div class="text-[10px] opacity-80 uppercase">Суроға</div>
+                                <div id="card-location" class="font-bold text-xs">Ноҳияи Восеъ, Деҳаи Кадучӣ</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-xs opacity-90 italic">
+                        баргузор мегардад, даъват менамоем.
+                    </div>
+
+                    <!-- Mandatory Text Box -->
+                    <div class="bg-black/30 border border-current/40 p-3 rounded-xl text-xs font-bold tracking-wide uppercase leading-relaxed">
+                        ИШТИРОКИ ШУМО ДАР РӮЗИ ХУРСАНДИИ МО БОИСИ ИФТИХОРИ МОСТ
+                    </div>
+
+                    <!-- Family / Sender Info -->
+                    <div id="card-family-container" class="text-xs pt-1">
+                        Бо эҳтиром: <span id="card-family-name" class="font-bold">ОИЛАИ Носировҳо</span>
+                    </div>
+
+                    <!-- Yandex Maps Button (If available) -->
+                    <div id="card-map-btn-container" class="pt-2 hidden">
+                        <a id="card-map-link" href="#" target="_blank" class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white text-xs px-4 py-2 rounded-full font-bold transition shadow-lg">
+                            <i class="fas fa-location-dot"></i> Нишондод дар Яндекс.Карта
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audio Player Element -->
+        <audio id="bg-audio" loop></audio>
+
+        <!-- Footer -->
+        <footer class="text-center py-4 text-xs text-gray-500">
+            © 2026 ShohKor Invites. Тамоми ҳуқуқҳо ҳифз шудаанд.
+        </footer>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        // State variables
+        let currentLang = 'tg';
+        let currentCategory = 'wedding';
+        let stepHistory = [1];
+        let audioSrc = null;
+
+        // Dictionary
+        const translations = {
+            tg: {
+                back: "Оқиб",
+                catTitle: "БАРОИ РӮЗИ ЧИ ДАЪВАТНОМА МЕҲОҲЕД?",
+                wedding: "Рӯзи Тӯй",
+                birthday: "Рӯзи Таваллуд",
+                housewarming: "Даъват ба хона",
+                guests: "Даъват ба Меҳмонӣ",
+                formTitle: "МАЪЛУМОТҲОРО ПУР КУНЕД!",
+                lblGuest: "Муҳтарам:",
+                lblGroom: "Номи ШОҲПИСАР:",
+                lblBride: "Номи ГУЛДУХТАР:",
+                lblFamily: "Аз номи оилаи:",
+                lblBirthdayName: "Номи Таваллуддор:",
+                lblOccasion: "Ба чӣ муносибат:",
+                lblDate: "Рӯз, Моҳ, Сол:",
+                lblTime: "Соати ҷашн:",
+                lblLocation: "Ҷой / Суроға:",
+                lblMap: "Линки Яндекс.Карта (Ихтиёрӣ):",
+                btnSubmit: "ПУР КАРДАМ",
+                envWedding: "БАРОИ РӮЗИ ТӮЙ",
+                envBirthday: "БАРОИ РӮЗИ ТАВАЛЛУД",
+                envHousewarming: "БАРОИ ДАЪВАТ БА ХОНА",
+                envGuests: "БАРОИ ДАЪВАТ БА МЕҲМОНӢ",
+                shareTextWedding: "Даъватнома барои рӯзи ТӮЙ",
+                shareTextBirthday: "Даъватнома барои Рӯзи Таваллуд",
+                shareTextHousewarming: "Даъватнома барои Даъват ба хона",
+                shareTextGuests: "Даъватнома барои Даъват ба Меҳмонӣ"
+            },
+            ru: {
+                back: "Назад",
+                catTitle: "КАКОЕ ПРИГЛАШЕНИЕ ВАМ НУЖНО?",
+                wedding: "День свадьбы",
+                birthday: "День рождения",
+                housewarming: "Новоселье",
+                guests: "Приглашение в гости",
+                formTitle: "ЗАПОЛНИТЕ ДАННЫЕ!",
+                lblGuest: "Уважаемый(ая):",
+                lblGroom: "Имя ЖЕНИХА:",
+                lblBride: "Имя НЕВЕСТЫ:",
+                lblFamily: "От имени семьи:",
+                lblBirthdayName: "Имя именинника:",
+                lblOccasion: "По какому случаю:",
+                lblDate: "День, Месяц, Год:",
+                lblTime: "Время торжества:",
+                lblLocation: "Место проведения:",
+                lblMap: "Ссылка Яндекс.Карты (Опционально):",
+                btnSubmit: "ЗАПОЛНИЛ(А)",
+                envWedding: "НА ДЕНЬ СВАДЬБЫ",
+                envBirthday: "НА ДЕНЬ РОЖДЕНИЯ",
+                envHousewarming: "НА НОВОСЕЛЬЕ",
+                envGuests: "ПРИГЛАШЕНИЕ В ГОСТИ",
+                shareTextWedding: "Приглашение на День Свадьбы",
+                shareTextBirthday: "Приглашение на День Рождения",
+                shareTextHousewarming: "Приглашение на Новоселье",
+                shareTextGuests: "Приглашение в Гости"
+            },
+            en: {
+                back: "Back",
+                catTitle: "WHICH INVITATION DO YOU NEED?",
+                wedding: "Wedding Day",
+                birthday: "Birthday",
+                housewarming: "Housewarming",
+                guests: "Dinner Party",
+                formTitle: "FILL IN THE DETAILS!",
+                lblGuest: "Dear Guest:",
+                lblGroom: "Groom's Name:",
+                lblBride: "Bride's Name:",
+                lblFamily: "From the family of:",
+                lblBirthdayName: "Birthday Person's Name:",
+                lblOccasion: "Occasion:",
+                lblDate: "Date:",
+                lblTime: "Time:",
+                lblLocation: "Location / Address:",
+                lblMap: "Yandex.Maps Link (Optional):",
+                btnSubmit: "COMPLETE",
+                envWedding: "FOR WEDDING DAY",
+                envBirthday: "FOR BIRTHDAY",
+                envHousewarming: "FOR HOUSEWARMING",
+                envGuests: "FOR DINNER PARTY",
+                shareTextWedding: "Invitation for Wedding Day",
+                shareTextBirthday: "Invitation for Birthday",
+                shareTextHousewarming: "Invitation for Housewarming",
+                shareTextGuests: "Invitation for Dinner Party"
+            }
+        };
+
+        // Navigation
+        function showStep(stepNum) {
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('step-3').classList.add('hidden');
+            document.getElementById('step-4').classList.add('hidden');
+            
+            document.getElementById(`step-${stepNum}`).classList.remove('hidden');
+
+            const header = document.getElementById('app-header');
+            if (stepNum > 1) {
+                header.classList.remove('hidden');
+            } else {
+                header.classList.add('hidden');
+            }
+        }
+
+        function goBack() {
+            if (stepHistory.length > 1) {
+                stepHistory.pop();
+                const prevStep = stepHistory[stepHistory.length - 1];
+                showStep(prevStep);
+            }
+        }
+
+        function navigateTo(stepNum) {
+            stepHistory.push(stepNum);
+            showStep(stepNum);
+        }
+
+        // Language Selection
+        function selectLang(lang) {
+            currentLang = lang;
+            const t = translations[lang];
+
+            document.getElementById('txt-back').innerText = t.back;
+            document.getElementById('lbl-cat-title').innerText = t.catTitle;
+            document.getElementById('cat-wedding').innerText = t.wedding;
+            document.getElementById('cat-birthday').innerText = t.birthday;
+            document.getElementById('cat-housewarming').innerText = t.housewarming;
+            document.getElementById('cat-guests').innerText = t.guests;
+
+            document.getElementById('lbl-form-title').innerText = t.formTitle;
+            document.getElementById('lbl-guest').innerText = t.lblGuest;
+            document.getElementById('lbl-groom').innerText = t.lblGroom;
+            document.getElementById('lbl-bride').innerText = t.lblBride;
+            document.getElementById('lbl-family').innerText = t.lblFamily;
+            document.getElementById('lbl-birthday-name').innerText = t.lblBirthdayName;
+            document.getElementById('lbl-occasion').innerText = t.lblOccasion;
+            document.getElementById('lbl-date').innerText = t.lblDate;
+            document.getElementById('lbl-time').innerText = t.lblTime;
+            document.getElementById('lbl-location').innerText = t.lblLocation;
+            document.getElementById('lbl-map').innerText = t.lblMap;
+            document.getElementById('btn-submit').innerText = t.btnSubmit;
+
+            navigateTo(2);
+        }
+
+        // Category Selection
+        function selectCategory(cat) {
+            currentCategory = cat;
+            
+            document.getElementById('fields-wedding').classList.add('hidden');
+            document.getElementById('fields-birthday').classList.add('hidden');
+            document.getElementById('fields-other').classList.add('hidden');
+
+            if (cat === 'wedding') {
+                document.getElementById('fields-wedding').classList.remove('hidden');
+            } else if (cat === 'birthday') {
+                document.getElementById('fields-birthday').classList.remove('hidden');
+            } else {
+                document.getElementById('fields-other').classList.remove('hidden');
+            }
+
+            navigateTo(3);
+        }
+
+        // Load Local MP3 Audio
+        function loadAudio(event) {
+            const file = event.target.files[0];
+            if (file) {
+                audioSrc = URL.createObjectURL(file);
+                const audio = document.getElementById('bg-audio');
+                audio.src = audioSrc;
+            }
+        }
+
+        // Form Submit & Update Card Data
+        function submitForm() {
+            const guest = document.getElementById('inp-guest').value || 'Савзаалӣ';
+            const date = document.getElementById('inp-date').value || '25.10.2026';
+            const time = document.getElementById('inp-time').value || '09:00';
+            const location = document.getElementById('inp-location').value || 'Ноҳияи Восеъ, Деҳаи Кадучӣ';
+            const mapUrl = document.getElementById('inp-map').value;
+
+            document.getElementById('card-guest-name').innerText = guest;
+            document.getElementById('card-date').innerText = date;
+            document.getElementById('card-time').innerText = time;
+            document.getElementById('card-location').innerText = location;
+
+            const t = translations[currentLang];
+            let categoryText = t.envWedding;
+
+            if (currentCategory === 'wedding') {
+                categoryText = t.envWedding;
+                const groom = document.getElementById('inp-groom').value || 'МУҲАММАД';
+                const bride = document.getElementById('inp-bride').value || 'МУНИСА';
+                const family = document.getElementById('inp-family').value || 'Носировҳо';
+
+                document.getElementById('card-event-type').innerText = 'ТӮЙИ';
+                document.getElementById('card-name-1').innerText = groom;
+                document.getElementById('card-name-2').innerText = bride;
+                document.getElementById('card-family-name').innerText = `ОИЛАИ ${family}`;
+                document.getElementById('card-family-container').classList.remove('hidden');
+                document.getElementById('card-name-2').previousElementSibling.classList.remove('hidden');
+            } else if (currentCategory === 'birthday') {
+                categoryText = t.envBirthday;
+                const name = document.getElementById('inp-birthday-name').value || 'Шоҳмурод';
+                
+                document.getElementById('card-event-type').innerText = 'ЗOДРӮЗИ';
+                document.getElementById('card-name-1').innerText = name;
+                document.getElementById('card-name-2').innerText = '';
+                document.getElementById('card-name-2').previousElementSibling.classList.add('hidden');
+                document.getElementById('card-family-container').classList.add('hidden');
+            } else {
+                categoryText = (currentCategory === 'housewarming') ? t.envHousewarming : t.envGuests;
+                const occasion = document.getElementById('inp-occasion').value || 'Ҷашн';
+
+                document.getElementById('card-event-type').innerText = occasion.toUpperCase();
+                document.getElementById('card-name-1').innerText = occasion;
+                document.getElementById('card-name-2').innerText = '';
+                document.getElementById('card-name-2').previousElementSibling.classList.add('hidden');
+                document.getElementById('card-family-container').classList.add('hidden');
+            }
+
+            // Set envelope label
+            document.getElementById('env-category-text').innerText = categoryText;
+
+            // Handle Yandex map link
+            if (mapUrl) {
+                document.getElementById('card-map-link').href = mapUrl;
+                document.getElementById('card-map-btn-container').classList.remove('hidden');
+            } else {
+                document.getElementById('card-map-btn-container').classList.add('hidden');
+            }
+
+            // Reset envelope & show Step 4
+            document.getElementById('envelope-screen').classList.remove('hidden');
+            document.getElementById('card-screen').classList.add('hidden');
+
+            navigateTo(4);
+        }
+
+        // Open Envelope & Play Music
+        function openEnvelope() {
+            document.getElementById('envelope-screen').classList.add('hidden');
+            document.getElementById('card-screen').classList.remove('hidden');
+
+            const audio = document.getElementById('bg-audio');
+            if (audioSrc) {
+                audio.play().catch(() => {});
+            }
+        }
+
+        // Change Card Themes (10 Designs)
+        function changeTheme(themeClass) {
+            const card = document.getElementById('invitation-card');
+            card.className = `card-preview-container ${themeClass} border-4 rounded-2xl p-6 text-center shadow-2xl relative overflow-hidden space-y-5`;
+        }
+
+        // Download Card as Image
+        function downloadAsImage() {
+            const card = document.getElementById('invitation-card');
+            html2canvas(card, { scale: 2 }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'Davatnoma.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        // Share Invitation
+        function shareInvitation() {
+            const t = translations[currentLang];
+            let shareMessage = t.shareTextWedding;
+
+            if (currentCategory === 'birthday') {
+                shareMessage = t.shareTextBirthday;
+            } else if (currentCategory === 'housewarming') {
+                shareMessage = t.shareTextHousewarming;
+            } else if (currentCategory === 'guests') {
+                shareMessage = t.shareTextGuests;
+            }
+
+            const card = document.getElementById('invitation-card');
+            
+            html2canvas(card, { scale: 2 }).then(canvas => {
+                canvas.toBlob(blob => {
+                    const file = new File([blob], 'davatnoma.png', { type: 'image/png' });
+                    
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        navigator.share({
+                            title: shareMessage,
+                            text: shareMessage,
+                            files: [file]
+                        }).catch(() => {});
+                    } else if (navigator.share) {
+                        navigator.share({
+                            title: shareMessage,
+                            text: shareMessage
+                        }).catch(() => {});
+                    } else {
+                        downloadAsImage();
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
