@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Даъватномаи рақамӣ</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; }
+  .font-title { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 600; }
+  .font-serif-custom { font-family: 'Playfair Display', Georgia, serif; }
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .soft-border { border: 1px solid rgba(255,255,255,.3); }
+  .envelope-box { background: linear-gradient(135deg, #2b080c 0%, #170003 100%); box-shadow: 0 15px 35px rgba(0,0,0,.6); }
+  .card-preview-container { max-width: 450px; margin: 0 auto; min-height: 580px; transition: all .3s ease; }
+  .theme-1 { background: linear-gradient(to bottom, #0f172a, #1e1b4b, #0284c7); color: #fef08a; border-color: #eab308; }
+  .theme-2 { background: linear-gradient(to bottom, #450a0a, #78350f, #991b1b); color: #fef08a; border-color: #f59e0b; }
+  .theme-3 { background: linear-gradient(to bottom, #064e3b, #022c22, #065f46); color: #ecfdf5; border-color: #10b981; }
+  .theme-4 { background: linear-gradient(to bottom, #312e81, #1e1b4b, #4c1d95); color: #e0e7ff; border-color: #818cf8; }
+  .theme-5 { background: linear-gradient(to bottom, #18181b, #27272a, #09090b); color: #fbbf24; border-color: #d97706; }
+  .theme-6 { background: linear-gradient(to bottom, #701a75, #4c1d95, #831843); color: #fbcfe8; border-color: #f472b6; }
+  .theme-7 { background: linear-gradient(to bottom, #0284c7, #0369a1, #0c4a6e); color: #e0f2fe; border-color: #38bdf8; }
+  .theme-8 { background: linear-gradient(to bottom, #14532d, #166534, #052e16); color: #fef08a; border-color: #eab308; }
+  .theme-9 { background: linear-gradient(to bottom, #7c2d12, #9a3412, #451a03); color: #ffedd5; border-color: #f97316; }
+  .theme-10 { background: linear-gradient(to bottom, #3f2b96, #a8c0ff); color: #ffffff; border-color: #ffffff; }
+</style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen">
+<div class="max-w-md mx-auto min-h-screen flex flex-col justify-between p-4 relative">
+
+  <header id="app-header" class="flex justify-between items-center py-2 hidden">
+    <button onclick="goBack()" class="text-amber-400 hover:text-amber-300 text-xl font-bold flex items-center gap-2">
+      <i class="fas fa-arrow-left"></i> <span data-i18n="back">Қафо</span>
+    </button>
+    <span class="text-xs text-amber-500 tracking-widest">SHOHKOR INVITES</span>
+  </header>
+
+  <!-- STEP 1 -->
+  <div id="step-1" class="my-auto text-center space-y-8">
+    <div class="space-y-3">
+      <i class="fas fa-envelope-open-text text-5xl text-amber-400 animate-bounce"></i>
+      <h1 class="text-2xl font-bold text-amber-300 uppercase tracking-wide leading-relaxed">ДАЪВАТНОМА БАРОИ ТӮЙ ВА ЗОДРӮЗ</h1>
+      <p class="text-gray-400 text-sm">Приглашения на свадьбу и день рождения</p>
+    </div>
+    <div class="space-y-3 pt-4">
+      <button onclick="selectLang('tg')" class="w-full py-3 px-6 bg-gradient-to-r from-amber-600 to-amber-800 text-white font-semibold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-3"><span>🇹🇯</span> Тоҷикӣ</button>
+      <button onclick="selectLang('ru')" class="w-full py-3 px-6 bg-gray-800 border border-amber-600/40 text-gray-200 font-semibold rounded-xl shadow-lg hover:bg-gray-700 active:scale-95 transition flex items-center justify-center gap-3"><span>🇷🇺</span> Русский</button>
+      <button onclick="selectLang('en')" class="w-full py-3 px-6 bg-gray-800 border border-amber-600/40 text-gray-200 font-semibold rounded-xl shadow-lg hover:bg-gray-700 active:scale-95 transition flex items-center justify-center gap-3"><span>🇬🇧</span> English</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div id="step-2" class="my-auto space-y-6 hidden">
+    <div class="text-center space-y-2">
+      <h2 data-i18n="catTitle" class="text-xl font-bold text-amber-300"></h2>
+      <div class="h-0.5 w-24 bg-amber-500 mx-auto"></div>
+    </div>
+    <div class="grid grid-cols-1 gap-4">
+      <button onclick="selectCategory('wedding')" class="p-4 bg-gray-800/90 border border-amber-500/30 rounded-2xl flex items-center gap-4 hover:border-amber-400 transition active:scale-95">
+        <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl"><i class="fas fa-ring"></i></div>
+        <div class="text-left"><div data-i18n="wedding" class="font-bold text-lg text-amber-200"></div><div class="text-xs text-gray-400">Свадьба / Wedding</div></div>
+      </button>
+      <button onclick="selectCategory('birthday')" class="p-4 bg-gray-800/90 border border-amber-500/30 rounded-2xl flex items-center gap-4 hover:border-amber-400 transition active:scale-95">
+        <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl"><i class="fas fa-cake-candles"></i></div>
+        <div class="text-left"><div data-i18n="birthday" class="font-bold text-lg text-amber-200"></div><div class="text-xs text-gray-400">День рождения / Birthday</div></div>
+      </button>
+      <button onclick="selectCategory('housewarming')" class="p-4 bg-gray-800/90 border border-amber-500/30 rounded-2xl flex items-center gap-4 hover:border-amber-400 transition active:scale-95">
+        <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl"><i class="fas fa-house-chimney-user"></i></div>
+        <div class="text-left"><div data-i18n="housewarming" class="font-bold text-lg text-amber-200"></div><div class="text-xs text-gray-400">Новоселье / Housewarming</div></div>
+      </button>
+      <button onclick="selectCategory('guests')" class="p-4 bg-gray-800/90 border border-amber-500/30 rounded-2xl flex items-center gap-4 hover:border-amber-400 transition active:scale-95">
+        <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl"><i class="fas fa-utensils"></i></div>
+        <div class="text-left"><div data-i18n="guests" class="font-bold text-lg text-amber-200"></div><div class="text-xs text-gray-400">Гости / Dinner Party</div></div>
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div id="step-3" class="space-y-5 hidden my-auto py-4">
+    <div class="text-center"><h2 data-i18n="formTitle" class="text-xl font-bold text-amber-300"></h2></div>
+    <form id="invite-form" novalidate onsubmit="event.preventDefault(); submitForm();" class="space-y-4 text-sm">
+      <div>
+        <label class="block text-gray-300 mb-1" data-i18n="lblGuest"></label>
+        <input type="text" id="inp-guest" placeholder="Савзаалӣ" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+      </div>
+
+      <div id="fields-wedding" class="space-y-4">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-gray-300 mb-1" data-i18n="lblGroom"></label>
+            <input type="text" id="inp-groom" placeholder="МУҲАММАД" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white focus:border-amber-400 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-1" data-i18n="lblBride"></label>
+            <input type="text" id="inp-bride" placeholder="МУНИСА" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white focus:border-amber-400 focus:outline-none">
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-300 mb-1" data-i18n="lblFamily"></label>
+          <input type="text" id="inp-family" placeholder="Носировҳо" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+        </div>
+      </div>
+
+      <div id="fields-birthday" class="space-y-4 hidden">
+        <div>
+          <label class="block text-gray-300 mb-1" data-i18n="lblBirthdayName"></label>
+          <input type="text" id="inp-birthday-name" placeholder="Шоҳмурод" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+        </div>
+      </div>
+
+      <div id="fields-other" class="space-y-4 hidden">
+        <div>
+          <label class="block text-gray-300 mb-1" data-i18n="lblOccasion"></label>
+          <input type="text" id="inp-occasion" placeholder="" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-gray-300 mb-1" data-i18n="lblDate"></label>
+          <input type="text" id="inp-date" placeholder="25.10.2026" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white focus:border-amber-400 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-gray-300 mb-1" data-i18n="lblTime"></label>
+          <input type="text" id="inp-time" placeholder="09:00" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white focus:border-amber-400 focus:outline-none">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-gray-300 mb-1" data-i18n="lblLocation"></label>
+        <input type="text" id="inp-location" placeholder="Ноҳияи Восеъ, Деҳаи Кадучӣ" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+      </div>
+
+      <div>
+        <label class="block text-gray-300 mb-1" data-i18n="lblMap"></label>
+        <input type="text" inputmode="url" id="inp-map" placeholder="https://yandex.ru/maps/..." class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+      </div>
+
+      <div>
+        <label class="block text-gray-300 mb-1" data-i18n="lblMusicUrl"></label>
+        <input type="text" inputmode="url" id="inp-music-url" placeholder="https://.../music.mp3" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+      </div>
+
+      <div>
+        <label class="block text-gray-300 mb-1" data-i18n="lblMusicFile"></label>
+        <input type="file" id="inp-audio" accept="audio/*" onchange="loadAudio(event)" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-gray-300 text-xs">
+      </div>
+
+      <div>
+        <label class="block text-gray-300 mb-1" id="lbl-photo-el" data-i18n="lblPhoto"></label>
+        <input type="file" id="inp-photo" accept="image/*" onchange="loadPhoto(event)" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-gray-300 text-xs">
+        <img id="photo-preview" class="hidden mt-2 w-16 h-16 rounded-full object-cover border-2 border-amber-400" alt="">
+      </div>
+
+      <button type="submit" data-i18n="btnSubmit" class="w-full py-3.5 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl shadow-lg transition active:scale-95 text-base mt-2"></button>
+    </form>
+  </div>
+
+  <!-- STEP 4 -->
+  <div id="step-4" class="hidden space-y-4 my-auto">
+
+    <div id="envelope-screen" class="text-center space-y-6">
+      <p data-i18n="tapEnvelope" class="text-amber-300/80 text-sm animate-pulse"></p>
+      <div onclick="openEnvelope()" class="cursor-pointer envelope-box p-6 rounded-2xl border-2 border-amber-500/60 relative overflow-hidden shadow-2xl hover:scale-105 transition duration-300">
+        <div class="absolute top-2 left-3 text-amber-300 text-xs">✦</div>
+        <div class="absolute top-4 right-5 text-amber-300 text-sm">✦</div>
+        <div class="absolute bottom-3 left-6 text-amber-300 text-xs">✦</div>
+        <div class="absolute bottom-2 right-4 text-amber-300 text-xs">✦</div>
+        <div class="py-12 px-4 border border-amber-400/40 rounded-xl bg-amber-950/20 space-y-4">
+          <div class="w-12 h-12 mx-auto bg-red-700 rounded-full flex items-center justify-center text-white shadow-lg border-2 border-amber-400"><i class="fas fa-heart"></i></div>
+          <div class="space-y-1">
+            <h3 id="env-title" class="text-2xl font-bold tracking-widest text-amber-200"></h3>
+            <p id="env-category-text" class="text-base font-semibold text-amber-400 tracking-wider uppercase"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="card-screen" class="hidden space-y-4">
+      <div id="action-bar" class="grid grid-cols-3 gap-2 bg-gray-800 p-2 rounded-xl">
+        <button onclick="downloadAsImage()" class="flex items-center justify-center gap-1 bg-amber-600 hover:bg-amber-500 text-white px-2 py-2 rounded-lg text-xs font-bold shadow"><i class="fas fa-download"></i> <span data-i18n="btnDownload"></span></button>
+        <button id="btn-share" onclick="shareInvitation()" class="flex items-center justify-center gap-1 bg-blue-600 hover:bg-blue-500 text-white px-2 py-2 rounded-lg text-xs font-bold shadow"><i class="fas fa-paper-plane"></i> <span data-i18n="btnShare"></span></button>
+        <button id="btn-link" onclick="copyLink()" class="flex items-center justify-center gap-1 bg-emerald-600 hover:bg-emerald-500 text-white px-2 py-2 rounded-lg text-xs font-bold shadow"><i class="fas fa-link"></i> <span data-i18n="btnLink"></span></button>
+      </div>
+
+      <div id="theme-switcher" class="space-y-1">
+        <label data-i18n="themeLbl" class="text-xs text-amber-300 font-semibold block text-center"></label>
+        <div class="flex overflow-x-auto gap-2 py-1 no-scrollbar">
+          <button onclick="changeTheme('theme-1')" class="px-3 py-1 bg-slate-800 text-amber-300 border border-amber-400 rounded-full text-xs font-bold whitespace-nowrap">1</button>
+          <button onclick="changeTheme('theme-2')" class="px-3 py-1 bg-red-900 text-amber-300 border border-amber-400 rounded-full text-xs font-bold whitespace-nowrap">2</button>
+          <button onclick="changeTheme('theme-3')" class="px-3 py-1 bg-emerald-900 text-emerald-200 border border-emerald-400 rounded-full text-xs font-bold whitespace-nowrap">3</button>
+          <button onclick="changeTheme('theme-4')" class="px-3 py-1 bg-indigo-900 text-indigo-200 border border-indigo-400 rounded-full text-xs font-bold whitespace-nowrap">4</button>
+          <button onclick="changeTheme('theme-5')" class="px-3 py-1 bg-zinc-900 text-amber-400 border border-amber-500 rounded-full text-xs font-bold whitespace-nowrap">5</button>
+          <button onclick="changeTheme('theme-6')" class="px-3 py-1 bg-fuchsia-900 text-pink-200 border border-pink-400 rounded-full text-xs font-bold whitespace-nowrap">6</button>
+          <button onclick="changeTheme('theme-7')" class="px-3 py-1 bg-sky-800 text-sky-100 border border-sky-300 rounded-full text-xs font-bold whitespace-nowrap">7</button>
+          <button onclick="changeTheme('theme-8')" class="px-3 py-1 bg-green-950 text-amber-300 border border-green-500 rounded-full text-xs font-bold whitespace-nowrap">8</button>
+          <button onclick="changeTheme('theme-9')" class="px-3 py-1 bg-amber-950 text-orange-200 border border-orange-400 rounded-full text-xs font-bold whitespace-nowrap">9</button>
+          <button onclick="changeTheme('theme-10')" class="px-3 py-1 bg-purple-900 text-white border border-white rounded-full text-xs font-bold whitespace-nowrap">10</button>
+        </div>
+      </div>
+
+      <div id="invitation-card" class="card-preview-container theme-1 border-4 rounded-2xl p-6 text-center shadow-2xl relative overflow-hidden space-y-5">
+        <div class="space-y-1 pt-2">
+          <div id="card-title" class="text-3xl font-title"></div>
+          <div class="h-0.5 w-32 bg-current opacity-60 mx-auto"></div>
+        </div>
+
+        <div id="card-photo-wrap" class="hidden">
+          <div class="flex justify-center">
+            <img id="card-photo" alt="" class="w-32 h-32 rounded-full object-cover border-4" style="border-color: currentColor;">
+          </div>
+        </div>
+
+        <div class="space-y-0.5">
+          <div id="card-dear" class="text-xs opacity-90"></div>
+          <div id="card-guest-name" class="text-2xl font-bold font-serif-custom"></div>
+        </div>
+
+        <div id="card-intro" class="text-sm"></div>
+
+        <div class="flex items-center justify-center gap-2 text-xl font-bold font-serif-custom flex-wrap">
+          <span id="card-name-1"></span>
+          <span id="card-amp" class="text-xl font-bold px-1">&amp;</span>
+          <span id="card-name-2"></span>
+        </div>
+
+        <div class="space-y-2 py-2">
+          <div class="bg-black/20 soft-border rounded-xl p-2 flex items-center justify-center gap-3">
+            <i class="fas fa-calendar-alt text-lg"></i>
+            <div><div id="card-date-lbl" class="text-[10px] opacity-80 uppercase"></div><div id="card-date" class="font-bold text-sm"></div></div>
+          </div>
+          <div class="bg-black/20 soft-border rounded-xl p-2 flex items-center justify-center gap-3">
+            <i class="fas fa-clock text-lg"></i>
+            <div><div id="card-time-lbl" class="text-[10px] opacity-80 uppercase"></div><div id="card-time" class="font-bold text-sm"></div></div>
+          </div>
+          <div class="bg-black/20 soft-border rounded-xl p-2 flex items-center justify-center gap-3">
+            <i class="fas fa-map-marker-alt text-lg"></i>
+            <div><div id="card-place-lbl" class="text-[10px] opacity-80 uppercase"></div><div id="card-location" class="font-bold text-xs"></div></div>
+          </div>
+        </div>
+
+        <div id="card-outro" class="text-xs opacity-90 italic"></div>
+
+        <div id="card-box" class="bg-black/30 soft-border p-3 rounded-xl text-xs font-bold tracking-wide uppercase leading-relaxed"></div>
+
+        <div id="card-family-container" class="text-xs pt-1">
+          <span id="card-from"></span> <span id="card-family-name" class="font-bold"></span>
+        </div>
+
+        <div id="card-map-btn-container" class="pt-2 hidden" data-html2canvas-ignore="true">
+          <a id="card-map-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white text-xs px-4 py-2 rounded-full font-bold transition shadow-lg">
+            <i class="fas fa-location-dot"></i> <span id="card-map-text"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="bg-audio" loop></audio>
+
+  <footer id="app-footer" class="text-center py-4 text-xs text-gray-500">© 2026 ShohKor Invites</footer>
+</div>
+
+<script>
+/* ---------- State ---------- */
+let lang = 'tg';
+let category = 'wedding';
+let stepHistory = [1];
+let guestMode = false;
+let localAudioSrc = null;
+let theme = 'theme-1';
+let data = null;
+let imgBlob = null;
+let imgTimer = null;
+let photoData = '';
+
+/* ---------- Translations ---------- */
+const T = {
+  tg: {
+    back:'Қафо', catTitle:'БАРОИ РӮЗИ ЧИ ДАЪВАТНОМА МЕҲОҲЕД?',
+    wedding:'Рӯзи Тӯй', birthday:'Рӯзи Таваллуд', housewarming:'Даъват ба хона', guests:'Даъват ба Меҳмонӣ',
+    formTitle:'МАЪЛУМОТҲОРО ПУР КУНЕД!', lblGuest:'Муҳтарам:', lblGroom:'Номи ШОҲПИСАР:', lblBride:'Номи ГУЛДУХТАР:',
+    lblFamily:'Аз номи оилаи:', lblBirthdayName:'Номи Таваллуддор:', lblOccasion:'Ба чӣ муносибат (ихтиёрӣ):',
+    lblDate:'Рӯз, Моҳ, Сол:', lblTime:'Соати ҷашн:', lblLocation:'Ҷой / Суроға:', lblMap:'Линки Яндекс.Карта (Ихтиёрӣ):',
+    lblMusicUrl:'Линки мусиқӣ (https://...mp3, барои фиристодани линк):', lblMusicFile:'Ё мусиқӣ аз телефон (танҳо барои худатон):', lblPhoto:'Акс (ихтиёрӣ):', lblPhotoWedding:'Акси арӯсу домод (ихтиёрӣ):',
+    btnSubmit:'ПУР КАРДАМ', tapEnvelope:'Барои кушодани даъватнома ба болои конверт пахш кунед!',
+    btnDownload:'Скачать', btnShare:'Фиристодан', btnLink:'Линк', themeLbl:'Интихоби Дизайн (10 шаблон):',
+    linkCopied:'Линк нусха шуд!', linkNote:'Линк танҳо ҳангоми дар сайт ҷойгир кардани файл кор мекунад.',
+    envTitle:'ДАЪВАТНОМА', envWedding:'БАРОИ РӮЗИ ТӮЙ', envBirthday:'БАРОИ РӮЗИ ТАВАЛЛУД', envHousewarming:'БАРОИ ДАЪВАТ БА ХОНА', envGuests:'БАРОИ ДАЪВАТ БА МЕҲМОНӢ',
+    cTitle:'Даъватнома', cDear:'Муҳтарам:',
+    introWedding:'Шуморо ба рӯзи тӯйи', introBirthday:'Шуморо ба рӯзи таваллуди', introHousewarming:'Шуморо ба ҷашни', introGuests:'Шуморо ба',
+    defHousewarming:'хонаи нав', defGuests:'меҳмонӣ',
+    dateLbl:'Санаи ҷашн', timeLbl:'Соат', placeLbl:'Суроға',
+    outro:'баргузор мегардад, ба он даъват менамоем.',
+    box:'ИШТИРОКИ ШУМО ДАР РӮЗИ ХУРСАНДИИ МО БОИСИ ИФТИХОРИ МОСТ',
+    from:'Бо эҳтиром:', family:f=>`ОИЛАИ ${f}`, mapText:'Нишондод дар Яндекс.Карта',
+    shareWedding:'Даъватнома барои рӯзи ТӮЙ', shareBirthday:'Даъватнома барои Рӯзи Таваллуд', shareHousewarming:'Даъватнома барои Даъват ба хона', shareGuests:'Даъватнома барои Даъват ба Меҳмонӣ'
+  },
+  ru: {
+    back:'Назад', catTitle:'КАКОЕ ПРИГЛАШЕНИЕ ВАМ НУЖНО?',
+    wedding:'День свадьбы', birthday:'День рождения', housewarming:'Новоселье', guests:'Приглашение в гости',
+    formTitle:'ЗАПОЛНИТЕ ДАННЫЕ!', lblGuest:'Уважаемый(ая):', lblGroom:'Имя ЖЕНИХА:', lblBride:'Имя НЕВЕСТЫ:',
+    lblFamily:'От имени семьи:', lblBirthdayName:'Имя именинника:', lblOccasion:'По какому случаю (необязательно):',
+    lblDate:'День, Месяц, Год:', lblTime:'Время торжества:', lblLocation:'Место проведения:', lblMap:'Ссылка Яндекс.Карты (необязательно):',
+    lblMusicUrl:'Ссылка на музыку (https://...mp3, для отправки по ссылке):', lblMusicFile:'Или музыка с телефона (только для вас):', lblPhoto:'Фото (необязательно):', lblPhotoWedding:'Фото жениха и невесты (необязательно):',
+    btnSubmit:'ЗАПОЛНИЛ(А)', tapEnvelope:'Нажмите на конверт, чтобы открыть приглашение!',
+    btnDownload:'Скачать', btnShare:'Отправить', btnLink:'Ссылка', themeLbl:'Выбор дизайна (10 шаблонов):',
+    linkCopied:'Ссылка скопирована!', linkNote:'Ссылка работает, только если файл размещён на сайте.',
+    envTitle:'ПРИГЛАШЕНИЕ', envWedding:'НА ДЕНЬ СВАДЬБЫ', envBirthday:'НА ДЕНЬ РОЖДЕНИЯ', envHousewarming:'НА НОВОСЕЛЬЕ', envGuests:'ПРИГЛАШЕНИЕ В ГОСТИ',
+    cTitle:'Приглашение', cDear:'Уважаемый(ая):',
+    introWedding:'Приглашаем вас на свадьбу', introBirthday:'Приглашаем вас на день рождения', introHousewarming:'Приглашаем вас на', introGuests:'Приглашаем вас в',
+    defHousewarming:'новоселье', defGuests:'гости',
+    dateLbl:'Дата праздника', timeLbl:'Время', placeLbl:'Адрес',
+    outro:'Торжество состоится в указанное время. Будем рады вам!',
+    box:'ВАШЕ УЧАСТИЕ В НАШЕМ ПРАЗДНИКЕ — БОЛЬШАЯ ЧЕСТЬ ДЛЯ НАС',
+    from:'С уважением:', family:f=>`СЕМЬЯ ${f}`, mapText:'Показать на Яндекс.Картах',
+    shareWedding:'Приглашение на День Свадьбы', shareBirthday:'Приглашение на День Рождения', shareHousewarming:'Приглашение на Новоселье', shareGuests:'Приглашение в Гости'
+  },
+  en: {
+    back:'Back', catTitle:'WHICH INVITATION DO YOU NEED?',
+    wedding:'Wedding Day', birthday:'Birthday', housewarming:'Housewarming', guests:'Dinner Party',
+    formTitle:'FILL IN THE DETAILS!', lblGuest:'Dear Guest:', lblGroom:"Groom's Name:", lblBride:"Bride's Name:",
+    lblFamily:'From the family of:', lblBirthdayName:"Birthday Person's Name:", lblOccasion:'Occasion (optional):',
+    lblDate:'Date:', lblTime:'Time:', lblLocation:'Location / Address:', lblMap:'Yandex.Maps Link (optional):',
+    lblMusicUrl:'Music link (https://...mp3, needed for sharing by link):', lblMusicFile:'Or music from your phone (only for you):', lblPhoto:'Photo (optional):', lblPhotoWedding:'Photo of the bride and groom (optional):',
+    btnSubmit:'COMPLETE', tapEnvelope:'Tap the envelope to open your invitation!',
+    btnDownload:'Download', btnShare:'Share', btnLink:'Link', themeLbl:'Choose design (10 templates):',
+    linkCopied:'Link copied!', linkNote:'The link only works when this file is hosted on a website.',
+    envTitle:'INVITATION', envWedding:'FOR WEDDING DAY', envBirthday:'FOR BIRTHDAY', envHousewarming:'FOR HOUSEWARMING', envGuests:'FOR DINNER PARTY',
+    cTitle:'Invitation', cDear:'Dear:',
+    introWedding:'You are invited to the wedding of', introBirthday:'You are invited to the birthday of', introHousewarming:'You are invited to a', introGuests:'You are invited to a',
+    defHousewarming:'housewarming', defGuests:'dinner party',
+    dateLbl:'Date', timeLbl:'Time', placeLbl:'Location',
+    outro:'We would be honored to have you with us.',
+    box:'YOUR PRESENCE AT OUR CELEBRATION IS AN HONOR FOR US',
+    from:'With respect:', family:f=>`${f} FAMILY`, mapText:'Show on Yandex Maps',
+    shareWedding:'Invitation for Wedding Day', shareBirthday:'Invitation for Birthday', shareHousewarming:'Invitation for Housewarming', shareGuests:'Invitation for Dinner Party'
+  }
+};
+
+const $ = id => document.getElementById(id);
+const tr = () => T[lang];
+
+function applyI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = tr()[el.dataset.i18n];
+    if (typeof v === 'string') el.textContent = v;
+  });
+  document.documentElement.lang = lang;
+}
+
+/* ---------- Helpers ---------- */
+function safeUrl(u) {
+  u = String(u || '').trim();
+  if (!u) return '';
+  if (!/^[a-z][a-z0-9+.-]*:/i.test(u)) u = 'https://' + u;
+  try {
+    const x = new URL(u);
+    return (x.protocol === 'https:' || x.protocol === 'http:') ? x.href : '';
+  } catch (e) { return ''; }
+}
+function enc(o) {
+  return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+function dec(s) {
+  s = s.replace(/-/g,'+').replace(/_/g,'/');
+  while (s.length % 4) s += '=';
+  return JSON.parse(decodeURIComponent(escape(atob(s))));
+}
+
+/* ---------- Navigation ---------- */
+function showStep(n) {
+  [1,2,3,4].forEach(i => $('step-'+i).classList.add('hidden'));
+  $('step-'+n).classList.remove('hidden');
+  $('app-header').classList.toggle('hidden', n === 1 || guestMode);
+}
+function navigateTo(n) { stepHistory.push(n); showStep(n); }
+function goBack() {
+  if (stepHistory.length > 1) {
+    stepHistory.pop();
+    showStep(stepHistory[stepHistory.length - 1]);
+  }
+}
+
+function selectLang(l) {
+  lang = l;
+  applyI18n();
+  navigateTo(2);
+}
+
+function selectCategory(cat) {
+  category = cat;
+  $('fields-wedding').classList.toggle('hidden', cat !== 'wedding');
+  $('fields-birthday').classList.toggle('hidden', cat !== 'birthday');
+  $('fields-other').classList.toggle('hidden', cat === 'wedding' || cat === 'birthday');
+  const def = cat === 'housewarming' ? tr().defHousewarming : tr().defGuests;
+  $('inp-occasion').placeholder = def;
+  $('lbl-photo-el').textContent = cat === 'wedding' ? tr().lblPhotoWedding : tr().lblPhoto;
+  navigateTo(3);
+}
+
+/* ---------- Audio ---------- */
+function loadAudio(e) {
+  const f = e.target.files[0];
+  if (f) {
+    if (localAudioSrc) URL.revokeObjectURL(localAudioSrc);
+    localAudioSrc = URL.createObjectURL(f);
+  }
+}
+
+/* ---------- Photo (resized small so it fits inside the link) ---------- */
+function loadPhoto(e) {
+  const f = e.target.files[0];
+  if (!f) { photoData = ''; $('photo-preview').classList.add('hidden'); return; }
+  const url = URL.createObjectURL(f);
+  const img = new Image();
+  img.onload = () => {
+    const size = 180;
+    const c = document.createElement('canvas');
+    c.width = size; c.height = size;
+    const side = Math.min(img.width, img.height);
+    const sx = (img.width - side) / 2, sy = (img.height - side) / 2;
+    c.getContext('2d').drawImage(img, sx, sy, side, side, 0, 0, size, size);
+    photoData = c.toDataURL('image/jpeg', 0.55);
+    $('photo-preview').src = photoData;
+    $('photo-preview').classList.remove('hidden');
+    URL.revokeObjectURL(url);
+  };
+  img.onerror = () => { URL.revokeObjectURL(url); };
+  img.src = url;
+}
+
+/* ---------- Form ---------- */
+function submitForm() {
+  data = {
+    l: lang, c: category, th: theme,
+    g: $('inp-guest').value.trim() || 'Савзаалӣ',
+    a: $('inp-groom').value.trim() || 'МУҲАММАД',
+    b: $('inp-bride').value.trim() || 'МУНИСА',
+    f: $('inp-family').value.trim() || 'Носировҳо',
+    n: $('inp-birthday-name').value.trim() || 'Шоҳмурод',
+    o: $('inp-occasion').value.trim(),
+    d: $('inp-date').value.trim() || '25.10.2026',
+    t: $('inp-time').value.trim() || '09:00',
+    p: $('inp-location').value.trim() || 'Ноҳияи Восеъ, Деҳаи Кадучӣ',
+    m: safeUrl($('inp-map').value.trim()),
+    s: safeUrl($('inp-music-url').value.trim()),
+    ph: photoData
+  };
+  renderCard();
+  $('envelope-screen').classList.remove('hidden');
+  $('card-screen').classList.add('hidden');
+  navigateTo(4);
+}
+
+/* ---------- Render card ---------- */
+function renderCard() {
+  const t = tr();
+  const d = data;
+  const cat = d.c;
+
+  $('env-title').textContent = t.envTitle;
+  $('env-category-text').textContent =
+    cat === 'wedding' ? t.envWedding : cat === 'birthday' ? t.envBirthday :
+    cat === 'housewarming' ? t.envHousewarming : t.envGuests;
+
+  $('card-title').textContent = t.cTitle;
+  $('card-dear').textContent = t.cDear;
+  $('card-guest-name').textContent = d.g;
+  $('card-date-lbl').textContent = t.dateLbl;
+  $('card-time-lbl').textContent = t.timeLbl;
+  $('card-place-lbl').textContent = t.placeLbl;
+  $('card-date').textContent = d.d;
+  $('card-time').textContent = d.t;
+  $('card-location').textContent = d.p;
+  $('card-outro').textContent = t.outro;
+  $('card-box').textContent = t.box;
+  $('card-from').textContent = t.from;
+  $('card-map-text').textContent = t.mapText;
+
+  if (cat === 'wedding') {
+    $('card-intro').textContent = t.introWedding;
+    $('card-name-1').textContent = d.a;
+    $('card-name-2').textContent = d.b;
+    $('card-amp').classList.remove('hidden');
+    $('card-family-name').textContent = t.family(d.f);
+    $('card-family-container').classList.remove('hidden');
+  } else if (cat === 'birthday') {
+    $('card-intro').textContent = t.introBirthday;
+    $('card-name-1').textContent = d.n;
+    $('card-name-2').textContent = '';
+    $('card-amp').classList.add('hidden');
+    $('card-family-container').classList.add('hidden');
+  } else {
+    $('card-intro').textContent = cat === 'housewarming' ? t.introHousewarming : t.introGuests;
+    const def = cat === 'housewarming' ? t.defHousewarming : t.defGuests;
+    $('card-name-1').textContent = d.o || def;
+    $('card-name-2').textContent = '';
+    $('card-amp').classList.add('hidden');
+    $('card-family-container').classList.add('hidden');
+  }
+
+  if (d.m) {
+    $('card-map-link').href = d.m;
+    $('card-map-btn-container').classList.remove('hidden');
+  } else {
+    $('card-map-btn-container').classList.add('hidden');
+  }
+  if (d.ph) {
+    $('card-photo').src = d.ph;
+    $('card-photo-wrap').classList.remove('hidden');
+  } else {
+    $('card-photo').removeAttribute('src');
+    $('card-photo-wrap').classList.add('hidden');
+  }
+  setTheme(d.th || 'theme-1');
+}
+
+function setTheme(th) {
+  theme = th;
+  if (data) data.th = th;
+  $('invitation-card').className =
+    `card-preview-container ${th} border-4 rounded-2xl p-6 text-center shadow-2xl relative overflow-hidden space-y-5`;
+}
+function changeTheme(th) {
+  setTheme(th);
+  scheduleImage();
+}
+
+/* ---------- Envelope ---------- */
+function openEnvelope() {
+  $('envelope-screen').classList.add('hidden');
+  $('card-screen').classList.remove('hidden');
+  const audio = $('bg-audio');
+  const src = (data && data.s) || localAudioSrc;
+  if (src) {
+    if (audio.getAttribute('src') !== src) audio.src = src;
+    audio.play().catch(() => {});
+  }
+  scheduleImage();
+}
+
+/* ---------- Image (download / share) ---------- */
+function renderImage() {
+  return html2canvas($('invitation-card'), {
+    scale: 2,
+    useCORS: true,
+    ignoreElements: el => el.hasAttribute && el.hasAttribute('data-html2canvas-ignore')
+  });
+}
+function scheduleImage() {
+  imgBlob = null;
+  clearTimeout(imgTimer);
+  imgTimer = setTimeout(() => {
+    renderImage().then(c => c.toBlob(b => { imgBlob = b; }, 'image/png')).catch(() => {});
+  }, 500);
+}
+function saveBlob(blob) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.download = 'Davatnoma.png';
+  a.href = url;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+function downloadAsImage() {
+  if (imgBlob) { saveBlob(imgBlob); return; }
+  renderImage().then(c => c.toBlob(b => { imgBlob = b; saveBlob(b); }, 'image/png'));
+}
+
+/* ---------- Link & share ---------- */
+function buildLink() {
+  const payload = Object.assign({}, data, { l: lang, th: theme });
+  return location.href.split('#')[0] + '#d=' + enc(payload);
+}
+function copyLink() {
+  const link = buildLink();
+  const done = () => alert(tr().linkCopied + '\n\n' + tr().linkNote);
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(link).then(done).catch(() => prompt('Link:', link));
+  } else {
+    prompt('Link:', link);
+  }
+}
+function shareInvitation() {
+  const t = tr();
+  const msg = category === 'birthday' ? t.shareBirthday :
+              category === 'housewarming' ? t.shareHousewarming :
+              category === 'guests' ? t.shareGuests : t.shareWedding;
+  // Image is pre-rendered so navigator.share runs directly inside the tap
+  if (imgBlob) {
+    const file = new File([imgBlob], 'davatnoma.png', { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ title: msg, text: msg, files: [file] }).catch(() => {});
+      return;
+    }
+  }
+  if (navigator.share && location.protocol !== 'file:') {
+    navigator.share({ title: msg, text: msg, url: buildLink() }).catch(() => {});
+  } else {
+    downloadAsImage();
+  }
+}
+
+/* ---------- Guest mode (opened from a shared link) ---------- */
+function initFromHash() {
+  const m = location.hash.match(/^#d=(.+)$/);
+  if (!m) return;
+  try {
+    const d = dec(m[1]);
+    if (!d || typeof d !== 'object') return;
+    d.m = safeUrl(d.m || '');
+    d.s = safeUrl(d.s || '');
+    d.ph = (typeof d.ph === 'string' && /^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/.test(d.ph) && d.ph.length < 60000) ? d.ph : '';
+    if (!T[d.l]) d.l = 'tg';
+    if (!['wedding','birthday','housewarming','guests'].includes(d.c)) d.c = 'wedding';
+    if (!/^theme-([1-9]|10)$/.test(d.th || '')) d.th = 'theme-1';
+    ['g','a','b','f','n','o','d','t','p'].forEach(k => { d[k] = String(d[k] == null ? '' : d[k]).slice(0, 200); });
+    data = d; lang = d.l; category = d.c; theme = d.th;
+    guestMode = true;
+    applyI18n();
+    renderCard();
+    $('theme-switcher').classList.add('hidden');
+    $('app-footer').classList.add('hidden');
+    $('btn-share').classList.add('hidden');
+    $('btn-link').classList.add('hidden');
+    $('action-bar').classList.replace('grid-cols-3','grid-cols-1');
+    stepHistory = [4];
+    showStep(4);
+  } catch (e) { /* invalid link: show normal start page */ }
+}
+
+/* ---------- Init ---------- */
+applyI18n();
+initFromHash();
+</script>
+</body>
+</html>
