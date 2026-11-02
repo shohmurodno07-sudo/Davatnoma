@@ -4,29 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Даъватномаи рақамӣ</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- HTML2Canvas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Great+Vibes&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         .font-title { font-family: 'Great Vibes', cursive; }
         .font-serif-custom { font-family: 'Playfair Display', serif; }
         .font-header { font-family: 'Cinzel', serif; }
-        
         .envelope-box {
             background: linear-gradient(135deg, #2b080c 0%, #170003 100%);
             box-shadow: 0 15px 35px rgba(0,0,0,0.6);
         }
-        
-        .card-preview-container {
-            max-width: 450px;
-            margin: 0 auto;
-        }
-
+        .card-preview-container { max-width: 450px; margin: 0 auto; }
         .gold-text {
             background: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
             -webkit-background-clip: text;
@@ -36,15 +26,13 @@
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans min-h-screen">
 
-    <!-- Audio Element -->
     <audio id="bg-music" loop></audio>
 
     <div class="max-w-md mx-auto min-h-screen flex flex-col justify-between p-4 relative">
 
-        <!-- Header / Back Navigation & Music Toggle -->
         <header id="app-header" class="flex justify-between items-center py-2 hidden">
-            <button onclick="goBack()" class="text-amber-400 hover:text-amber-300 text-xl font-bold flex items-center gap-2">
-                <i class="fas fa-arrow-left"></i> <span id="txt-back">Оқиб</span>
+            <button id="btn-back" onclick="goBack()" class="text-amber-400 hover:text-amber-300 text-xl font-bold flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> <span data-i="back">Оқиб</span>
             </button>
             <div class="flex items-center gap-3">
                 <button id="music-toggle-btn" onclick="toggleMusic()" class="text-amber-400 text-xl hidden bg-gray-800 p-2 rounded-full border border-amber-500/40">
@@ -54,7 +42,7 @@
             </div>
         </header>
 
-        <!-- STEP 1: LANGUAGE SELECTION -->
+        <!-- STEP 1 -->
         <div id="step-1" class="my-auto text-center space-y-8">
             <div class="space-y-3">
                 <i class="fas fa-envelope-open-text text-5xl text-amber-400 animate-bounce"></i>
@@ -63,544 +51,493 @@
                 </h1>
                 <p class="text-gray-400 text-sm">Приглашения на свадьбу и день рождения</p>
             </div>
-
             <div class="space-y-3 pt-4">
                 <button onclick="selectLang('tg')" class="w-full py-3 px-6 bg-gradient-to-r from-amber-600 to-amber-800 text-white font-semibold rounded-xl shadow-lg hover:brightness-110 active:scale-95 transition flex items-center justify-center gap-3">
-                    <span>🇹🇯</span> Тоҷикӣ
+                    <span class="text-xs font-bold bg-black/25 rounded px-1.5 py-0.5">TJ</span> Тоҷикӣ
                 </button>
                 <button onclick="selectLang('ru')" class="w-full py-3 px-6 bg-gray-800 border border-amber-600/40 text-gray-200 font-semibold rounded-xl shadow-lg hover:bg-gray-700 active:scale-95 transition flex items-center justify-center gap-3">
-                    <span>🇷🇺</span> Русский
+                    <span class="text-xs font-bold bg-black/25 rounded px-1.5 py-0.5">RU</span> Русский
                 </button>
                 <button onclick="selectLang('en')" class="w-full py-3 px-6 bg-gray-800 border border-amber-600/40 text-gray-200 font-semibold rounded-xl shadow-lg hover:bg-gray-700 active:scale-95 transition flex items-center justify-center gap-3">
-                    <span>🇬🇧</span> English
+                    <span class="text-xs font-bold bg-black/25 rounded px-1.5 py-0.5">EN</span> English
                 </button>
             </div>
         </div>
 
-        <!-- STEP 2: CATEGORY SELECTION -->
+        <!-- STEP 2 -->
         <div id="step-2" class="my-auto space-y-6 hidden">
             <div class="text-center space-y-2">
-                <h2 id="lbl-cat-title" class="text-xl font-bold text-amber-300">БАРОИ РӮЗИ ЧИ ДАЪВАТНОМА МЕҲОҲЕД?</h2>
+                <h2 data-i="catTitle" class="text-xl font-bold text-amber-300">БАРОИ РӮЗИ ЧИ ДАЪВАТНОМА МЕҲОҲЕД?</h2>
                 <div class="h-0.5 w-24 bg-amber-500 mx-auto"></div>
             </div>
-
             <div class="grid grid-cols-1 gap-4">
                 <button onclick="selectCategory('wedding')" class="p-4 bg-gray-800/90 border border-amber-500/30 rounded-2xl flex items-center gap-4 hover:border-amber-400 transition active:scale-95">
-                    <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl">
-                        <i class="fas fa-ring"></i>
-                    </div>
+                    <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl"><i class="fas fa-ring"></i></div>
                     <div class="text-left">
-                        <div id="cat-wedding" class="font-bold text-lg text-amber-200">Рӯзи Тӯй</div>
+                        <div data-i="wedding" class="font-bold text-lg text-amber-200">Рӯзи Тӯй</div>
                         <div class="text-xs text-gray-400">Свадьба / Wedding</div>
                     </div>
                 </button>
-
                 <button onclick="selectCategory('birthday')" class="p-4 bg-gray-800/90 border border-amber-500/30 rounded-2xl flex items-center gap-4 hover:border-amber-400 transition active:scale-95">
-                    <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl">
-                        <i class="fas fa-cake-candles"></i>
-                    </div>
+                    <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl"><i class="fas fa-cake-candles"></i></div>
                     <div class="text-left">
-                        <div id="cat-birthday" class="font-bold text-lg text-amber-200">Рӯзи Таваллуд</div>
+                        <div data-i="birthday" class="font-bold text-lg text-amber-200">Рӯзи Таваллуд</div>
                         <div class="text-xs text-gray-400">День рождения / Birthday</div>
                     </div>
                 </button>
-
                 <button onclick="selectCategory('housewarming')" class="p-4 bg-gray-800/90 border border-amber-500/30 rounded-2xl flex items-center gap-4 hover:border-amber-400 transition active:scale-95">
-                    <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl">
-                        <i class="fas fa-house-chimney-user"></i>
-                    </div>
+                    <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl"><i class="fas fa-house-chimney-user"></i></div>
                     <div class="text-left">
-                        <div id="cat-housewarming" class="font-bold text-lg text-amber-200">Даъват ба хона</div>
+                        <div data-i="housewarming" class="font-bold text-lg text-amber-200">Даъват ба хона</div>
                         <div class="text-xs text-gray-400">Новоселье / Housewarming</div>
                     </div>
                 </button>
-
                 <button onclick="selectCategory('guests')" class="p-4 bg-gray-800/90 border border-amber-500/30 rounded-2xl flex items-center gap-4 hover:border-amber-400 transition active:scale-95">
-                    <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl">
-                        <i class="fas fa-utensils"></i>
-                    </div>
+                    <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-xl flex items-center justify-center text-2xl"><i class="fas fa-utensils"></i></div>
                     <div class="text-left">
-                        <div id="cat-guests" class="font-bold text-lg text-amber-200">Даъват ба Меҳмонӣ</div>
+                        <div data-i="guests" class="font-bold text-lg text-amber-200">Даъват ба Меҳмонӣ</div>
                         <div class="text-xs text-gray-400">Гости / Dinner Party</div>
                     </div>
                 </button>
             </div>
         </div>
 
-        <!-- STEP 3: DATA INPUT FORM -->
+        <!-- STEP 3 -->
         <div id="step-3" class="space-y-5 hidden my-auto py-4">
             <div class="text-center">
-                <h2 id="lbl-form-title" class="text-xl font-bold text-amber-300">МАЪЛУМОТҲОРО ПУР КУНЕД!</h2>
+                <h2 data-i="formTitle" class="text-xl font-bold text-amber-300">МАЪЛУМОТҲОРО ПУР КУНЕД!</h2>
             </div>
-
             <form id="invite-form" onsubmit="event.preventDefault(); submitForm();" class="space-y-4 text-sm">
-                
                 <div>
-                    <label class="block text-gray-300 mb-1" id="lbl-guest">Муҳтарам (Номи меҳмон):</label>
+                    <label class="block text-gray-300 mb-1" data-i="lblGuest">Муҳтарам (Номи меҳмон):</label>
                     <input type="text" id="inp-guest" placeholder="Акаи Савзаалӣ" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
                 </div>
 
-                <!-- Wedding Dynamic Fields -->
                 <div id="fields-wedding" class="space-y-4">
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-gray-300 mb-1" id="lbl-groom">Номи ШОҲПИСАР:</label>
+                            <label class="block text-gray-300 mb-1" data-i="lblGroom">Номи ШОҲПИСАР:</label>
                             <input type="text" id="inp-groom" placeholder="МУҲАММАД" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white focus:border-amber-400 focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-gray-300 mb-1" id="lbl-bride">Номи ГУЛДУХТАР:</label>
+                            <label class="block text-gray-300 mb-1" data-i="lblBride">Номи ГУЛДУХТАР:</label>
                             <input type="text" id="inp-bride" placeholder="МУНИСА" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white focus:border-amber-400 focus:outline-none">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-gray-300 mb-1" id="lbl-family">Аз номи оилаи:</label>
+                        <label class="block text-gray-300 mb-1" data-i="lblFamily">Аз номи оилаи:</label>
                         <input type="text" id="inp-family" placeholder="Носировҳо" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
                     </div>
                 </div>
 
-                <!-- Birthday Dynamic Fields -->
                 <div id="fields-birthday" class="space-y-4 hidden">
                     <div>
-                        <label class="block text-gray-300 mb-1" id="lbl-birthday-name">Номи Таваллуддор:</label>
+                        <label class="block text-gray-300 mb-1" data-i="lblBirthdayName">Номи Таваллуддор:</label>
                         <input type="text" id="inp-birthday-name" placeholder="Шоҳмурод" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
                     </div>
                 </div>
 
-                <!-- Other categories dynamic field -->
                 <div id="fields-other" class="space-y-4 hidden">
                     <div>
-                        <label class="block text-gray-300 mb-1" id="lbl-occasion">Ба чӣ муносибат:</label>
+                        <label class="block text-gray-300 mb-1" data-i="lblOccasion">Ба чӣ муносибат:</label>
                         <input type="text" id="inp-occasion" placeholder="Муносибати ҷашн" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
                     </div>
                 </div>
 
-                <!-- Photo Upload Field -->
                 <div>
-                    <label class="block text-gray-300 mb-1">Интихоби акси ҷуфт / шахс аз галерея:</label>
+                    <label class="block text-gray-300 mb-1" data-i="lblPhoto">Интихоби акси ҷуфт / шахс аз галерея:</label>
                     <input type="file" id="inp-photo" accept="image/*" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white text-xs file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600 file:text-white hover:file:bg-amber-500">
                 </div>
 
-                <!-- Common Date/Time/Location Fields -->
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-gray-300 mb-1" id="lbl-date">Рӯз, Моҳ, Сол:</label>
+                        <label class="block text-gray-300 mb-1" data-i="lblDate">Рӯз, Моҳ, Сол:</label>
                         <input type="text" id="inp-date" placeholder="25.10.2026" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white focus:border-amber-400 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-gray-300 mb-1" id="lbl-time">Соати ҷашн:</label>
+                        <label class="block text-gray-300 mb-1" data-i="lblTime">Соати ҷашн:</label>
                         <input type="text" id="inp-time" placeholder="09:00" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white focus:border-amber-400 focus:outline-none">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-gray-300 mb-1" id="lbl-location">Ҷой / Суроға:</label>
+                    <label class="block text-gray-300 mb-1" data-i="lblLocation">Ҷой / Суроға:</label>
                     <input type="text" id="inp-location" placeholder="Ноҳияи Восеъ, Деҳаи Кадучӣ" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
                 </div>
 
                 <div>
-                    <label class="block text-gray-300 mb-1" id="lbl-map">Линки Яндекс.Карта (Ихтиёрӣ):</label>
+                    <label class="block text-gray-300 mb-1" data-i="lblMap">Линки Яндекс.Карта (Ихтиёрӣ):</label>
                     <input type="url" id="inp-map" placeholder="https://yandex.ru/maps/..." class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
                 </div>
 
-                <!-- Music Selection -->
                 <div>
-                    <label class="block text-gray-300 mb-1">Интихоби Мусиқӣ (MP3 аз телефон):</label>
+                    <label class="block text-gray-300 mb-1" data-i="lblMusicUrl">Линки мустақими мусиқӣ (MP3, барои меҳмон):</label>
+                    <input type="url" id="inp-music-url" placeholder="https://site.com/music.mp3" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:border-amber-400 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-gray-300 mb-1" data-i="lblMusic">Ё MP3 аз телефон (танҳо барои худатон):</label>
                     <input type="file" id="inp-music" accept="audio/mp3,audio/*" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-3 py-2 text-white text-xs file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600 file:text-white hover:file:bg-amber-500">
                 </div>
 
-                <button type="submit" id="btn-submit" class="w-full py-3.5 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl shadow-lg transition active:scale-95 text-base mt-2">
+                <button type="submit" id="btn-submit" data-i="btnSubmit" class="w-full py-3.5 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl shadow-lg transition active:scale-95 text-base mt-2">
                     ПУР КАРДАМ
                 </button>
             </form>
         </div>
 
-        <!-- STEP 4: INTERACTIVE ENVELOPE / CARD DISPLAY -->
+        <!-- STEP 4 -->
         <div id="step-4" class="hidden space-y-4 my-auto">
-            
-            <!-- ENVELOPE COVER (FIRST VIEW FOR GUEST) -->
+
             <div id="envelope-screen" class="text-center space-y-6">
-                <p class="text-amber-300/80 text-sm animate-pulse">Барои кушодани даъватнома ба болои конверт пахш кунед!</p>
-                
+                <p data-i="tap" class="text-amber-300/80 text-sm animate-pulse">Барои кушодани даъватнома ба болои конверт пахш кунед!</p>
                 <div onclick="openEnvelope()" class="cursor-pointer envelope-box p-6 rounded-2xl border-2 border-amber-500/60 relative overflow-hidden shadow-2xl hover:scale-105 transition duration-300">
                     <div class="absolute top-2 left-3 text-amber-300 text-xs">✦</div>
                     <div class="absolute top-4 right-5 text-amber-300 text-sm">✦</div>
                     <div class="absolute bottom-3 left-6 text-amber-300 text-xs">✦</div>
                     <div class="absolute bottom-2 right-4 text-amber-300 text-xs">✦</div>
-                    
                     <div class="py-12 px-4 border border-amber-400/40 rounded-xl bg-amber-950/25 backdrop-blur-sm space-y-4">
                         <div class="w-12 h-12 mx-auto bg-red-700 rounded-full flex items-center justify-center text-white shadow-lg border-2 border-amber-400">
                             <i class="fas fa-heart"></i>
                         </div>
                         <div class="space-y-1">
-                            <h3 class="text-2xl font-bold tracking-widest text-amber-200 font-header">ДАЪВАТНОМА</h3>
+                            <h3 data-i="envTitle" class="text-2xl font-bold tracking-widest text-amber-200 font-header">ДАЪВАТНОМА</h3>
                             <p id="env-category-text" class="text-base font-semibold text-amber-400 tracking-wider">БАРОИ РӮЗИ ТӮЙ</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- MAIN INVITATION CARD (REVEALED AFTER CLICK) -->
             <div id="card-screen" class="hidden space-y-4">
-                
-                <!-- Action Buttons Top -->
                 <div class="flex justify-between items-center bg-gray-800 p-2 rounded-xl">
                     <button onclick="downloadAsImage()" class="flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white px-3 py-2 rounded-lg text-xs font-bold shadow">
-                        <i class="fas fa-download"></i> Скачать HD
+                        <i class="fas fa-download"></i> <span data-i="dl">Скачать HD</span>
                     </button>
                     <button onclick="shareInvitationLink()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded-lg text-xs font-bold shadow">
-                        <i class="fas fa-paper-plane"></i> Фиристодани Линки Лого
+                        <i class="fas fa-paper-plane"></i> <span data-i="share">Фиристодани Линк</span>
                     </button>
                 </div>
 
-                <!-- CARD CANVAS PREVIEW -->
                 <div id="invitation-card" class="card-preview-container bg-gradient-to-b from-blue-950 via-slate-900 to-amber-950 border-4 border-amber-500/80 rounded-2xl p-6 text-center text-amber-100 shadow-2xl relative overflow-hidden space-y-4">
-                    
-                    <!-- Top Title -->
+
                     <div class="space-y-1 pt-1">
-                        <div class="text-amber-400 text-3xl font-title">Даъватнома</div>
+                        <div data-i="cTitle" class="text-amber-400 text-3xl font-title">Даъватнома</div>
                         <div class="h-0.5 w-32 bg-amber-400/60 mx-auto"></div>
                     </div>
 
-                    <!-- Uploaded Photo Container (Hidden if no photo) -->
                     <div id="card-photo-container" class="hidden mx-auto w-24 h-24 rounded-full border-2 border-amber-400 overflow-hidden shadow-lg">
                         <img id="card-uploaded-img" src="" alt="Photo" class="w-full h-full object-cover">
                     </div>
 
-                    <!-- Guest Name -->
                     <div class="space-y-0.5">
-                        <div class="text-xs text-amber-200/80">Муҳтарам: <span id="card-guest-title" class="italic">Ҳамкурси азиз</span></div>
+                        <div data-i="cDear" class="text-xs text-amber-200/80 uppercase font-semibold">МУҲТАРАМ:</div>
                         <div id="card-guest-name" class="text-2xl font-bold text-white font-serif-custom">Илҳом</div>
                     </div>
 
-                    <!-- Main Announcement Text -->
                     <div class="text-sm text-gray-200">
-                        Ман шуморо ба рӯзи <span id="card-event-type" class="text-red-400 font-bold uppercase">ТӮЙИ</span>
+                        <span id="card-intro">Ман шуморо ба рӯзи</span> <span id="card-event-type" class="text-red-400 font-bold uppercase">ТӮЙИ</span>
                     </div>
 
-                    <!-- Names with "ВА" in between -->
-                    <div class="flex items-center justify-center gap-2 text-xl font-bold font-serif-custom text-amber-200">
+                    <div id="card-names" class="flex items-center justify-center gap-2 text-xl font-bold font-serif-custom text-amber-200">
                         <span id="card-name-1">Шоҳмурод</span>
-                        <span id="card-separator" class="text-red-500 text-lg">❤️ ВА</span>
+                        <span id="card-separator" class="text-amber-400 text-2xl font-bold">&amp;</span>
                         <span id="card-name-2">Гулҷаҳон</span>
                     </div>
 
-                    <!-- Date / Time / Location Badges -->
                     <div class="space-y-2 py-1">
                         <div class="bg-amber-900/40 border border-amber-500/40 rounded-xl p-2 flex items-center justify-center gap-3">
                             <i class="fas fa-calendar-alt text-amber-400 text-lg"></i>
                             <div>
-                                <div class="text-[10px] text-amber-300 uppercase">Санаи ҷашн</div>
+                                <div data-i="cDate" class="text-[10px] text-amber-300 uppercase">Санаи ҷашн</div>
                                 <div id="card-date" class="font-bold text-sm">25.10.2026</div>
                             </div>
                         </div>
-
                         <div class="bg-amber-900/40 border border-amber-500/40 rounded-xl p-2 flex items-center justify-center gap-3">
                             <i class="fas fa-clock text-amber-400 text-lg"></i>
                             <div>
-                                <div class="text-[10px] text-amber-300 uppercase">Соат</div>
+                                <div data-i="cTime" class="text-[10px] text-amber-300 uppercase">Соат</div>
                                 <div id="card-time" class="font-bold text-sm">09:00</div>
                             </div>
                         </div>
-
                         <div class="bg-amber-900/40 border border-amber-500/40 rounded-xl p-2 flex items-center justify-center gap-3">
                             <i class="fas fa-map-marker-alt text-amber-400 text-lg"></i>
                             <div>
-                                <div class="text-[10px] text-amber-300 uppercase">Суроға</div>
+                                <div data-i="cAddr" class="text-[10px] text-amber-300 uppercase">Суроға</div>
                                 <div id="card-location" class="font-bold text-xs">Ноҳияи Восеъ, Деҳаи Кадучӣ</div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="text-xs text-amber-200/90 italic">
+                    <div id="card-outro" class="text-xs text-amber-200/90 italic">
                         баргузор мегардад, даъват менамоем.
                     </div>
 
-                    <!-- Mandatory Text Box -->
-                    <div class="bg-amber-500/10 border border-amber-400/50 p-3 rounded-xl text-xs font-bold text-amber-300 tracking-wide uppercase leading-relaxed">
+                    <div data-i="cMandatory" class="bg-amber-500/10 border border-amber-400/50 p-3 rounded-xl text-xs font-bold text-amber-300 tracking-wide uppercase leading-relaxed">
                         ИШТИРОКИ ШУМО ДАР РӮЗИ ХУРСАНДИИ МО БОИСИ ИФТИХОРИ МОСТ
                     </div>
 
-                    <!-- Family / Sender Info -->
                     <div id="card-family-container" class="text-xs text-gray-300 pt-1">
-                        Бо эҳтиром: <span id="card-family-name" class="font-bold text-amber-200">ОИЛАИ НОСИРОВҲО</span>
+                        <span id="card-from">Бо эҳтиром:</span> <span id="card-family-name" class="font-bold text-amber-200">ОИЛАИ НОСИРОВҲО</span>
                     </div>
 
-                    <!-- Yandex Maps Button (If available) -->
-                    <div id="card-map-btn-container" class="pt-2 hidden">
-                        <a id="card-map-link" href="#" target="_blank" class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white text-xs px-4 py-2 rounded-full font-bold transition shadow-lg">
-                            <i class="fas fa-location-dot"></i> Нишондод дар Яндекс.Карта
+                    <div id="card-map-btn-container" class="pt-2 hidden" data-html2canvas-ignore="true">
+                        <a id="card-map-link" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white text-xs px-4 py-2 rounded-full font-bold transition shadow-lg">
+                            <i class="fas fa-location-dot"></i> <span data-i="cMap">Нишондод дар Яндекс.Карта</span>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="text-center py-4 text-xs text-gray-500">
+        <footer data-i="footer" class="text-center py-4 text-xs text-gray-500">
             © 2026 ShohKor Invites. Тамоми ҳуқуқҳо ҳифз шудаанд.
         </footer>
     </div>
 
-    <!-- Application Script -->
     <script>
-        let currentLang = 'tg';
-        let currentCategory = 'wedding';
-        let stepHistory = [1];
-        let uploadedPhotoBase64 = "";
-        let audioObject = document.getElementById('bg-music');
+        const $ = id => document.getElementById(id);
+        let currentLang = 'tg', currentCategory = 'wedding', stepHistory = [1];
+        let uploadedPhoto = "", musicFileUrl = "", currentData = null;
+        const audioObject = $('bg-music');
         let isPlayingMusic = false;
 
-        const translations = {
+        const T = {
             tg: {
-                back: "Оқиб",
-                catTitle: "БАРОИ РӮЗИ ЧИ ДАЪВАТНОМА МЕҲОҲЕД?",
-                wedding: "Рӯзи Тӯй",
-                birthday: "Рӯзи Таваллуд",
-                housewarming: "Даъват ба хона",
-                guests: "Даъват ба Меҳмонӣ",
-                formTitle: "МАЪЛУМОТҲОРО ПУР КУНЕД!",
-                lblGuest: "Муҳтарам (Номи меҳмон):",
-                lblGroom: "Номи ШОҲПИСАР:",
-                lblBride: "Номи ГУЛДУХТАР:",
-                lblFamily: "Аз номи оилаи:",
-                lblBirthdayName: "Номи Таваллуддор:",
-                lblOccasion: "Ба чӣ муносибат:",
-                lblDate: "Рӯз, Моҳ, Сол:",
-                lblTime: "Соати ҷашн:",
-                lblLocation: "Ҷой / Суроға:",
+                back: "Оқиб", catTitle: "БАРОИ РӮЗИ ЧИ ДАЪВАТНОМА МЕҲОҲЕД?",
+                wedding: "Рӯзи Тӯй", birthday: "Рӯзи Таваллуд", housewarming: "Даъват ба хона", guests: "Даъват ба Меҳмонӣ",
+                formTitle: "МАЪЛУМОТҲОРО ПУР КУНЕД!", lblGuest: "Муҳтарам (Номи меҳмон):",
+                lblGroom: "Номи ШОҲПИСАР:", lblBride: "Номи ГУЛДУХТАР:", lblFamily: "Аз номи оилаи:",
+                lblBirthdayName: "Номи Таваллуддор:", lblOccasion: "Ба чӣ муносибат:",
+                lblPhoto: "Интихоби акси ҷуфт / шахс аз галерея:",
+                lblDate: "Рӯз, Моҳ, Сол:", lblTime: "Соати ҷашн:", lblLocation: "Ҷой / Суроға:",
                 lblMap: "Линки Яндекс.Карта (Ихтиёрӣ):",
+                lblMusicUrl: "Линки мустақими мусиқӣ (MP3, барои меҳмон):",
+                lblMusic: "Ё MP3 аз телефон (танҳо барои худатон):",
                 btnSubmit: "ПУР КАРДАМ",
-                envWedding: "БАРОИ РӮЗИ ТӮЙ",
-                envBirthday: "БАРОИ РӮЗИ ТАВАЛЛУД",
-                envHousewarming: "БАРОИ ДАЪВАТ БА ХОНА",
-                envGuests: "БАРОИ ДАЪВАТ БА МЕҲМОНӢ"
+                tap: "Барои кушодани даъватнома ба болои конверт пахш кунед!",
+                envTitle: "ДАЪВАТНОМА", envWedding: "БАРОИ РӮЗИ ТӮЙ", envBirthday: "БАРОИ РӮЗИ ТАВАЛЛУД",
+                envHousewarming: "БАРОИ ДАЪВАТ БА ХОНА", envGuests: "БАРОИ ДАЪВАТ БА МЕҲМОНӢ",
+                dl: "Зеркашии HD", share: "Фиристодани Линк",
+                cTitle: "Даъватнома", cDear: "МУҲТАРАМ:", cDate: "Санаи ҷашн", cTime: "Соат", cAddr: "Суроға",
+                cMandatory: "ИШТИРОКИ ШУМО ДАР РӮЗИ ХУРСАНДИИ МО БОИСИ ИФТИХОРИ МОСТ",
+                cMap: "Нишондод дар Яндекс.Карта",
+                footer: "© 2026 ShohKor Invites. Тамоми ҳуқуқҳо ҳифз шудаанд.",
+                intro: "Ман шуморо ба рӯзи", evW: "ТӮЙИ", evB: "ЗОДРӮЗИ",
+                outro: "баргузор мегардад, даъват менамоем.",
+                from: "Бо эҳтиром:", fam: f => `ОИЛАИ ${f}`,
+                defGuest: "Меҳмони азиз", defOcc: "Ҷашн",
+                shareTitle: "Даъватномаи рақамӣ", shareText: "Лутфан барои кушодани даъватнома ва шунидани мусиқӣ ба линк пахш кунед:",
+                copied: "Линк нусхабардорӣ шуд!"
             },
             ru: {
-                back: "Назад",
-                catTitle: "КАКОЕ ПРИГЛАШЕНИЕ ВАМ НУЖНО?",
-                wedding: "День свадьбы",
-                birthday: "День рождения",
-                housewarming: "Новоселье",
-                guests: "Приглашение в гости",
-                formTitle: "ЗАПОЛНИТЕ ДАННЫЕ!",
-                lblGuest: "Уважаемый(ая):",
-                lblGroom: "Имя ЖЕНИХА:",
-                lblBride: "Имя НЕВЕСТЫ:",
-                lblFamily: "От имени семьи:",
-                lblBirthdayName: "Имя именинника:",
-                lblOccasion: "По какому случаю:",
-                lblDate: "День, Месяц, Год:",
-                lblTime: "Время торжества:",
-                lblLocation: "Место проведения:",
+                back: "Назад", catTitle: "КАКОЕ ПРИГЛАШЕНИЕ ВАМ НУЖНО?",
+                wedding: "День свадьбы", birthday: "День рождения", housewarming: "Новоселье", guests: "Приглашение в гости",
+                formTitle: "ЗАПОЛНИТЕ ДАННЫЕ!", lblGuest: "Уважаемый(ая):",
+                lblGroom: "Имя ЖЕНИХА:", lblBride: "Имя НЕВЕСТЫ:", lblFamily: "От имени семьи:",
+                lblBirthdayName: "Имя именинника:", lblOccasion: "По какому случаю:",
+                lblPhoto: "Выберите фото пары / человека из галереи:",
+                lblDate: "День, Месяц, Год:", lblTime: "Время торжества:", lblLocation: "Место проведения:",
                 lblMap: "Ссылка Яндекс.Карты (Опционально):",
+                lblMusicUrl: "Прямая ссылка на музыку (MP3, для гостей):",
+                lblMusic: "Или MP3 с телефона (только для вас):",
                 btnSubmit: "ЗАПОЛНИЛ(А)",
-                envWedding: "НА ДЕНЬ СВАДЬБЫ",
-                envBirthday: "НА ДЕНЬ РОЖДЕНИЯ",
-                envHousewarming: "НА НОВОСЕЛЬЕ",
-                envGuests: "ПРИГЛАШЕНИЕ В ГОСТИ"
+                tap: "Нажмите на конверт, чтобы открыть приглашение!",
+                envTitle: "ПРИГЛАШЕНИЕ", envWedding: "НА ДЕНЬ СВАДЬБЫ", envBirthday: "НА ДЕНЬ РОЖДЕНИЯ",
+                envHousewarming: "НА НОВОСЕЛЬЕ", envGuests: "ПРИГЛАШЕНИЕ В ГОСТИ",
+                dl: "Скачать HD", share: "Отправить ссылку",
+                cTitle: "Приглашение", cDear: "УВАЖАЕМЫЙ(АЯ):", cDate: "Дата праздника", cTime: "Время", cAddr: "Адрес",
+                cMandatory: "ВАШЕ УЧАСТИЕ В НАШЕМ ПРАЗДНИКЕ — ДЛЯ НАС БОЛЬШАЯ ЧЕСТЬ",
+                cMap: "Показать на Яндекс.Картах",
+                footer: "© 2026 ShohKor Invites. Все права защищены.",
+                intro: "Приглашаем вас на", evW: "СВАДЬБУ", evB: "ДЕНЬ РОЖДЕНИЯ",
+                outro: "Будем рады видеть вас!",
+                from: "С уважением:", fam: f => `СЕМЬЯ ${f}`,
+                defGuest: "Дорогой гость", defOcc: "Праздник",
+                shareTitle: "Цифровое приглашение", shareText: "Нажмите на ссылку, чтобы открыть приглашение и послушать музыку:",
+                copied: "Ссылка скопирована!"
             },
             en: {
-                back: "Back",
-                catTitle: "WHICH INVITATION DO YOU NEED?",
-                wedding: "Wedding Day",
-                birthday: "Birthday",
-                housewarming: "Housewarming",
-                guests: "Dinner Party",
-                formTitle: "FILL IN THE DETAILS!",
-                lblGuest: "Dear Guest:",
-                lblGroom: "Groom's Name:",
-                lblBride: "Bride's Name:",
-                lblFamily: "From the family of:",
-                lblBirthdayName: "Birthday Person's Name:",
-                lblOccasion: "Occasion:",
-                lblDate: "Date:",
-                lblTime: "Time:",
-                lblLocation: "Location / Address:",
+                back: "Back", catTitle: "WHICH INVITATION DO YOU NEED?",
+                wedding: "Wedding Day", birthday: "Birthday", housewarming: "Housewarming", guests: "Dinner Party",
+                formTitle: "FILL IN THE DETAILS!", lblGuest: "Dear Guest:",
+                lblGroom: "Groom's Name:", lblBride: "Bride's Name:", lblFamily: "From the family of:",
+                lblBirthdayName: "Birthday Person's Name:", lblOccasion: "Occasion:",
+                lblPhoto: "Choose a photo of the couple / person:",
+                lblDate: "Date:", lblTime: "Time:", lblLocation: "Location / Address:",
                 lblMap: "Yandex.Maps Link (Optional):",
+                lblMusicUrl: "Direct music link (MP3, for guests):",
+                lblMusic: "Or MP3 from phone (only for you):",
                 btnSubmit: "COMPLETE",
-                envWedding: "FOR WEDDING DAY",
-                envBirthday: "FOR BIRTHDAY",
-                envHousewarming: "FOR HOUSEWARMING",
-                envGuests: "FOR DINNER PARTY"
+                tap: "Tap the envelope to open the invitation!",
+                envTitle: "INVITATION", envWedding: "FOR WEDDING DAY", envBirthday: "FOR BIRTHDAY",
+                envHousewarming: "FOR HOUSEWARMING", envGuests: "FOR DINNER PARTY",
+                dl: "Download HD", share: "Send Link",
+                cTitle: "Invitation", cDear: "DEAR:", cDate: "Date", cTime: "Time", cAddr: "Address",
+                cMandatory: "YOUR PRESENCE AT OUR CELEBRATION IS OUR HONOR",
+                cMap: "Show on Yandex.Maps",
+                footer: "© 2026 ShohKor Invites. All rights reserved.",
+                intro: "You are invited to", evW: "THE WEDDING OF", evB: "THE BIRTHDAY OF",
+                outro: "We look forward to seeing you!",
+                from: "Sincerely:", fam: f => `${f} FAMILY`,
+                defGuest: "Dear guest", defOcc: "Celebration",
+                shareTitle: "Digital invitation", shareText: "Tap the link to open the invitation and hear the music:",
+                copied: "Link copied!"
             }
         };
 
-        function showStep(stepNum) {
-            document.getElementById('step-1').classList.add('hidden');
-            document.getElementById('step-2').classList.add('hidden');
-            document.getElementById('step-3').classList.add('hidden');
-            document.getElementById('step-4').classList.add('hidden');
-            
-            document.getElementById(`step-${stepNum}`).classList.remove('hidden');
-
-            const header = document.getElementById('app-header');
-            if (stepNum > 1) {
-                header.classList.remove('hidden');
-            } else {
-                header.classList.add('hidden');
-            }
+        function applyLang(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.querySelectorAll('[data-i]').forEach(el => {
+                const v = T[lang][el.dataset.i];
+                if (v) el.innerText = v;
+            });
         }
 
+        function showStep(n) {
+            for (let i = 1; i <= 4; i++) $(`step-${i}`).classList.add('hidden');
+            $(`step-${n}`).classList.remove('hidden');
+            $('app-header').classList.toggle('hidden', n === 1);
+        }
+        function navigateTo(n) { stepHistory.push(n); showStep(n); }
         function goBack() {
             if (stepHistory.length > 1) {
                 stepHistory.pop();
-                const prevStep = stepHistory[stepHistory.length - 1];
-                showStep(prevStep);
+                showStep(stepHistory[stepHistory.length - 1]);
             }
         }
 
-        function navigateTo(stepNum) {
-            stepHistory.push(stepNum);
-            showStep(stepNum);
-        }
-
-        function selectLang(lang) {
-            currentLang = lang;
-            const t = translations[lang];
-
-            document.getElementById('txt-back').innerText = t.back;
-            document.getElementById('lbl-cat-title').innerText = t.catTitle;
-            document.getElementById('cat-wedding').innerText = t.wedding;
-            document.getElementById('cat-birthday').innerText = t.birthday;
-            document.getElementById('cat-housewarming').innerText = t.housewarming;
-            document.getElementById('cat-guests').innerText = t.guests;
-
-            document.getElementById('lbl-form-title').innerText = t.formTitle;
-            document.getElementById('lbl-guest').innerText = t.lblGuest;
-            document.getElementById('lbl-groom').innerText = t.lblGroom;
-            document.getElementById('lbl-bride').innerText = t.lblBride;
-            document.getElementById('lbl-family').innerText = t.lblFamily;
-            document.getElementById('lbl-birthday-name').innerText = t.lblBirthdayName;
-            document.getElementById('lbl-occasion').innerText = t.lblOccasion;
-            document.getElementById('lbl-date').innerText = t.lblDate;
-            document.getElementById('lbl-time').innerText = t.lblTime;
-            document.getElementById('lbl-location').innerText = t.lblLocation;
-            document.getElementById('lbl-map').innerText = t.lblMap;
-            document.getElementById('btn-submit').innerText = t.btnSubmit;
-
-            navigateTo(2);
-        }
+        function selectLang(lang) { applyLang(lang); navigateTo(2); }
 
         function selectCategory(cat) {
             currentCategory = cat;
-            document.getElementById('fields-wedding').classList.add('hidden');
-            document.getElementById('fields-birthday').classList.add('hidden');
-            document.getElementById('fields-other').classList.add('hidden');
-
-            if (cat === 'wedding') {
-                document.getElementById('fields-wedding').classList.remove('hidden');
-            } else if (cat === 'birthday') {
-                document.getElementById('fields-birthday').classList.remove('hidden');
-            } else {
-                document.getElementById('fields-other').classList.remove('hidden');
-            }
-
+            $('fields-wedding').classList.toggle('hidden', cat !== 'wedding');
+            $('fields-birthday').classList.toggle('hidden', cat !== 'birthday');
+            $('fields-other').classList.toggle('hidden', cat === 'wedding' || cat === 'birthday');
             navigateTo(3);
         }
 
-        // Handle Photo and Music file inputs
-        document.getElementById('inp-photo').addEventListener('change', function(e) {
+        // Photo: resized small so it fits inside the shared link
+        $('inp-photo').addEventListener('change', e => {
             const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(uploadEvent) {
-                    uploadedPhotoBase64 = uploadEvent.target.result;
+            if (!file) { uploadedPhoto = ""; return; }
+            const reader = new FileReader();
+            reader.onload = ev => {
+                const img = new Image();
+                img.onload = () => {
+                    const s = Math.min(1, 192 / Math.max(img.width, img.height));
+                    const c = document.createElement('canvas');
+                    c.width = Math.round(img.width * s);
+                    c.height = Math.round(img.height * s);
+                    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+                    uploadedPhoto = c.toDataURL('image/jpeg', 0.72);
                 };
-                reader.readAsDataURL(file);
-            }
+                img.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
         });
 
-        document.getElementById('inp-music').addEventListener('change', function(e) {
+        $('inp-music').addEventListener('change', e => {
             const file = e.target.files[0];
-            if (file) {
-                const musicUrl = URL.createObjectURL(file);
-                audioObject.src = musicUrl;
-            }
+            if (file) musicFileUrl = URL.createObjectURL(file);
         });
+
+        const enc = o => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+        const dec = s => JSON.parse(decodeURIComponent(escape(atob(s.replace(/-/g, '+').replace(/_/g, '/')))));
+        const safeUrl = u => /^https?:\/\//i.test(u || '') ? u : '';
 
         function submitForm() {
-            const guest = document.getElementById('inp-guest').value || 'Ҳамкурси азиз';
-            const date = document.getElementById('inp-date').value || '25.10.2026';
-            const time = document.getElementById('inp-time').value || '09:00';
-            const location = document.getElementById('inp-location').value || 'Ноҳияи Восеъ, Деҳаи Кадучӣ';
-            const mapUrl = document.getElementById('inp-map').value;
-
-            document.getElementById('card-guest-name').innerText = guest;
-            document.getElementById('card-date').innerText = date;
-            document.getElementById('card-time').innerText = time;
-            document.getElementById('card-location').innerText = location;
-
-            // Handle photo display
-            if (uploadedPhotoBase64) {
-                document.getElementById('card-uploaded-img').src = uploadedPhotoBase64;
-                document.getElementById('card-photo-container').classList.remove('hidden');
-            } else {
-                document.getElementById('card-photo-container').classList.add('hidden');
-            }
-
-            const t = translations[currentLang];
-            let categoryText = t.envWedding;
-
-            if (currentCategory === 'wedding') {
-                categoryText = t.envWedding;
-                const groom = document.getElementById('inp-groom').value || 'МУҲАММАД';
-                const bride = document.getElementById('inp-bride').value || 'МУНИСА';
-                const family = document.getElementById('inp-family').value || 'Носировҳо';
-
-                document.getElementById('card-event-type').innerText = 'ТӮЙИ';
-                document.getElementById('card-name-1').innerText = groom;
-                document.getElementById('card-separator').innerHTML = '❤️ ВА';
-                document.getElementById('card-name-2').innerText = bride;
-                document.getElementById('card-family-name').innerText = `ОИЛАИ ${family}`;
-                document.getElementById('card-family-container').classList.remove('hidden');
-            } else if (currentCategory === 'birthday') {
-                categoryText = t.envBirthday;
-                const name = document.getElementById('inp-birthday-name').value || 'Шоҳмурод';
-                
-                document.getElementById('card-event-type').innerText = 'ЗОДРӮЗИ';
-                document.getElementById('card-name-1').innerText = name;
-                document.getElementById('card-separator').innerHTML = '';
-                document.getElementById('card-name-2').innerText = '';
-                document.getElementById('card-family-container').classList.add('hidden');
-            } else {
-                categoryText = (currentCategory === 'housewarming') ? t.envHousewarming : t.envGuests;
-                const occasion = document.getElementById('inp-occasion').value || 'Ҷашн';
-
-                document.getElementById('card-event-type').innerText = occasion.toUpperCase();
-                document.getElementById('card-name-1').innerText = occasion;
-                document.getElementById('card-separator').innerHTML = '';
-                document.getElementById('card-name-2').innerText = '';
-                document.getElementById('card-family-container').classList.add('hidden');
-            }
-
-            document.getElementById('env-category-text').innerText = categoryText;
-
-            if (mapUrl) {
-                document.getElementById('card-map-link').href = mapUrl;
-                document.getElementById('card-map-btn-container').classList.remove('hidden');
-            } else {
-                document.getElementById('card-map-btn-container').classList.add('hidden');
-            }
-
-            document.getElementById('envelope-screen').classList.remove('hidden');
-            document.getElementById('card-screen').classList.add('hidden');
-
+            const raw = {
+                l: currentLang, c: currentCategory,
+                g: $('inp-guest').value.trim(),
+                gr: $('inp-groom').value.trim(), br: $('inp-bride').value.trim(), fm: $('inp-family').value.trim(),
+                bn: $('inp-birthday-name').value.trim(), oc: $('inp-occasion').value.trim(),
+                dt: $('inp-date').value.trim(), tm: $('inp-time').value.trim(), loc: $('inp-location').value.trim(),
+                map: safeUrl($('inp-map').value.trim()),
+                mu: safeUrl($('inp-music-url').value.trim()),
+                ph: uploadedPhoto
+            };
+            const d = {};
+            Object.keys(raw).forEach(k => { if (raw[k]) d[k] = raw[k]; });
+            currentData = d;
+            renderCard(d, musicFileUrl);
+            $('envelope-screen').classList.remove('hidden');
+            $('card-screen').classList.add('hidden');
             navigateTo(4);
         }
 
-        // Open Envelope on Click & Autoplay Music
-        function openEnvelope() {
-            document.getElementById('envelope-screen').classList.add('hidden');
-            document.getElementById('card-screen').classList.remove('hidden');
-            document.getElementById('music-toggle-btn').classList.remove('hidden');
+        function renderCard(d, localMusic) {
+            const t = T[d.l] || T.tg;
+            applyLang(d.l || 'tg');
+            const c = d.c || 'wedding';
 
-            // Play music automatically upon opening envelope
-            if (audioObject.src) {
+            $('card-guest-name').innerText = d.g || t.defGuest;
+            $('card-date').innerText = d.dt || $('inp-date').placeholder;
+            $('card-time').innerText = d.tm || $('inp-time').placeholder;
+            $('card-location').innerText = d.loc || $('inp-location').placeholder;
+
+            $('card-intro').innerText = t.intro;
+            $('card-outro').innerText = t.outro;
+            $('card-from').innerText = t.from;
+
+            if (d.ph) {
+                $('card-uploaded-img').src = d.ph;
+                $('card-photo-container').classList.remove('hidden');
+            } else {
+                $('card-photo-container').classList.add('hidden');
+            }
+
+            const sep = $('card-separator'), n2 = $('card-name-2');
+            let env = t.envWedding;
+
+            if (c === 'wedding') {
+                $('card-event-type').innerText = t.evW;
+                $('card-names').classList.remove('hidden');
+                $('card-name-1').innerText = d.gr || 'МУҲАММАД';
+                n2.innerText = d.br || 'МУНИСА';
+                sep.classList.remove('hidden'); n2.classList.remove('hidden');
+                $('card-family-name').innerText = t.fam(d.fm || 'Носировҳо');
+                $('card-family-container').classList.remove('hidden');
+            } else if (c === 'birthday') {
+                env = t.envBirthday;
+                $('card-event-type').innerText = t.evB;
+                $('card-names').classList.remove('hidden');
+                $('card-name-1').innerText = d.bn || 'Шоҳмурод';
+                sep.classList.add('hidden'); n2.classList.add('hidden');
+                $('card-family-container').classList.add('hidden');
+            } else {
+                env = c === 'housewarming' ? t.envHousewarming : t.envGuests;
+                $('card-event-type').innerText = (d.oc || t.defOcc).toUpperCase();
+                $('card-names').classList.add('hidden');
+                $('card-family-container').classList.add('hidden');
+            }
+            $('env-category-text').innerText = env;
+
+            if (d.map) {
+                $('card-map-link').href = d.map;
+                $('card-map-btn-container').classList.remove('hidden');
+            } else {
+                $('card-map-btn-container').classList.add('hidden');
+            }
+
+            const src = localMusic || d.mu || "";
+            if (src) audioObject.src = src; else audioObject.removeAttribute('src');
+        }
+
+        function openEnvelope() {
+            $('envelope-screen').classList.add('hidden');
+            $('card-screen').classList.remove('hidden');
+            if (audioObject.getAttribute('src')) {
+                $('music-toggle-btn').classList.remove('hidden');
                 audioObject.play().then(() => {
                     isPlayingMusic = true;
-                }).catch(e => {
-                    console.log("Autoplay blocked, user interaction required:", e);
+                    $('music-toggle-btn').innerHTML = '<i class="fas fa-music"></i>';
+                }).catch(() => {
+                    isPlayingMusic = false;
+                    $('music-toggle-btn').innerHTML = '<i class="fas fa-volume-xmark text-red-400"></i>';
                 });
+            } else {
+                $('music-toggle-btn').classList.add('hidden');
             }
         }
 
@@ -608,18 +545,18 @@
             if (isPlayingMusic) {
                 audioObject.pause();
                 isPlayingMusic = false;
-                document.getElementById('music-toggle-btn').innerHTML = '<i class="fas fa-volume-xmark text-red-400"></i>';
+                $('music-toggle-btn').innerHTML = '<i class="fas fa-volume-xmark text-red-400"></i>';
             } else {
                 audioObject.play().then(() => {
                     isPlayingMusic = true;
-                    document.getElementById('music-toggle-btn').innerHTML = '<i class="fas fa-music text-amber-400"></i>';
+                    $('music-toggle-btn').innerHTML = '<i class="fas fa-music text-amber-400"></i>';
                 }).catch(e => console.log(e));
             }
         }
 
-        function downloadAsImage() {
-            const card = document.getElementById('invitation-card');
-            html2canvas(card, { scale: 2, useCORS: true }).then(canvas => {
+        async function downloadAsImage() {
+            try { await document.fonts.ready; } catch (e) {}
+            html2canvas($('invitation-card'), { scale: 2, useCORS: true, backgroundColor: null }).then(canvas => {
                 const link = document.createElement('a');
                 link.download = 'Davatnoma.png';
                 link.href = canvas.toDataURL('image/png');
@@ -628,18 +565,30 @@
         }
 
         function shareInvitationLink() {
-            const currentUrl = window.location.href;
+            const t = T[currentLang];
+            const url = location.href.split('#')[0] + '#d=' + enc(currentData || {});
             if (navigator.share) {
-                navigator.share({
-                    title: 'Даъватномаи рақамӣ',
-                    text: 'Лутфан барои кушодани даъватнома ва шунидани мусиқӣ ба линк пахш кунед:',
-                    url: currentUrl
-                }).catch(() => {});
+                navigator.share({ title: t.shareTitle, text: t.shareText, url }).catch(() => {});
+            } else if (navigator.clipboard) {
+                navigator.clipboard.writeText(url).then(() => alert(t.copied));
             } else {
-                navigator.clipboard.writeText(currentUrl);
-                alert('Линки сайт нусхабардорӣ шуд! Шумо метавонед онро ба меҳмон фиристед.');
+                prompt(t.copied, url);
             }
         }
+
+        // Guest opens a shared link -> go straight to the filled envelope
+        (function init() {
+            const m = location.hash.match(/^#d=(.+)$/);
+            if (!m) return;
+            try {
+                const d = dec(m[1]);
+                currentData = d;
+                renderCard(d);
+                stepHistory = [4];
+                showStep(4);
+                $('btn-back').classList.add('hidden');
+            } catch (e) { console.log('Bad link', e); }
+        })();
     </script>
 </body>
 </html>
